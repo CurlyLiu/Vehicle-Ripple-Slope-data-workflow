@@ -1,0 +1,128 @@
+version: "1.0"
+description: "模糊匹配规则配置 - 用于条件ID智能匹配"
+author: "System"
+last_updated: "2025-03-29"
+
+# 匹配策略配置（按优先级排序）
+matching_strategies:
+  exact:
+    enabled: true
+    priority: 1
+    description: "精确匹配"
+    confidence: 1.0
+    options:
+      case_sensitive: false
+    
+  normalized:
+    enabled: true
+    priority: 2
+    description: "规范化匹配 - 移除括号、统一空格"
+    confidence: 0.95
+    transformations:
+      - name: "remove_parentheses"
+        description: "移除中英文括号"
+        patterns:
+          - '[\(\)（）]'
+        replacement: ''
+      - name: "normalize_whitespace"
+        description: "统一空格"
+        patterns:
+          - '\s+'
+        replacement: ' '
+      - name: "trim"
+        description: "去除首尾空格"
+    
+  fuzzy:
+    enabled: true
+    priority: 3
+    description: "编辑距离模糊匹配 - 处理拼写错误"
+    algorithm: "levenshtein"
+    min_confidence: 0.70
+    max_distance_ratio: 0.30
+    options:
+      weighted: true
+      substitution_cost: 1
+      insertion_cost: 1
+      deletion_cost: 1
+    
+  feature:
+    enabled: true
+    priority: 4
+    description: "特征匹配 - 基于关键词和模式"
+    min_confidence: 0.40
+    features:
+      - name: "driving_scenario"
+        description: "驾驶场景关键词"
+        weight: 0.4
+        keywords:
+          - "超车"          # Overtaking
+          - "急加速"        # Rapid acceleration
+          - "急减速"        # Rapid deceleration
+          - "匀速"          # Constant speed
+          - "匀速巡航"      # Cruise
+          - "爬坡"          # Uphill
+          - "下坡"          # Downhill
+          - "滑行"          # Coasting
+          - "停车"          # Parking
+          - "驻车"          # Parking
+          - "怠速"          # Idle
+          - "直流充电"      # DC charging
+          - "交流充电"      # AC charging
+          - "快充"          # Fast charging
+          - "慢充"          # Slow charging
+      
+      - name: "climate_control"
+        description: "空调/温度控制"
+        weight: 0.3
+        keywords:
+          - "暖风"          # Heating
+          - "冷风"          # Cooling
+          - "空调"          # Air conditioning
+          - "除霜"          # Defrost
+          - "除雾"          # Defog
+      
+      - name: "soc_range"
+        description: "SOC范围提取"
+        weight: 0.2
+        patterns:
+          - 'SOC\s*(\d+)'
+          - '^(\d+)_(?!\d+km)'
+        extract_as: "soc_value"
+        numeric: true
+      
+      - name: "speed_range"
+        description: "速度范围提取"
+        weight: 0.1
+        patterns:
+          - '(\d+)\s*-\s*(\d+)\s*km/h'
+          - '(\d+)\s*-\s*(\d+)(?!mm)'
+        extract_as: "speed_range"
+      
+      - name: "slope_angle"
+        description: "坡度角度（斜率数据专用）"
+        weight: 0.1
+        patterns:
+          - '坡度\s*(\d+)'
+          - '(\d+)\s*度'
+        extract_as: "slope_angle"
+        numeric: true
+        only_for: "slope_data"
+
+# 阈值配置
+thresholds:
+  auto_accept: 0.95           # 自动接受，无需审查
+  needs_review: 0.70          # 需要人工审查
+  reject: 0.40               # 拒绝匹配
+
+# 警告配置
+warnings:
+  log_fuzzy_matches: true     # 记录模糊匹配
+  log_confidence: true        # 记录置信度
+  max_warnings: 1000          # 最大警告数量
+  show_examples: 5            # 显示前N个示例
+
+# 性能优化
+performance:
+  cache_normalized_rules: true    # 缓存规范化后的规则
+  cache_size: 1000               # 缓存大小
+  use_trie_index: false          # 使用Trie索引（大数据集时启用）

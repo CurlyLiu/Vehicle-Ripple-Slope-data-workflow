@@ -1,0 +1,165 @@
+{
+  "skill_name": "vehicle-ripple-data",
+  "version": "4.3",
+  "version_date": "2025-03-23",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "data-integrity-complete-output",
+      "prompt": "Process vehicle ripple data from E:\\Vehicle_Date\\V0001\\V0001_RIPPLE and verify ALL 7 columns from statistics.xlsx are output to Excel: 数据名称, 整段时域有效值, 时域纹波Vpp值, 峰值排序, 频域最大峰值频率, 频域最大峰值, 频域均方根值. Ensure no data is lost.",
+      "expected_output": "Excel report with all 7 data columns preserved: Time Effective Value, Time VPP, Peak Ranking, Freq Peak, Freq Amplitude, Freq RMS",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_RIPPLE",
+      "assertions": [
+        {
+          "name": "all_columns_present",
+          "description": "All 7 statistics columns should be in Excel output",
+          "check": "excel.columns contain ['Time Effective Value', 'Time VPP', 'Peak Ranking', 'Freq Peak (kHz)', 'Freq Peak Amplitude', 'Freq RMS']"
+        },
+        {
+          "name": "no_data_loss",
+          "description": "No data rows should be lost",
+          "check": "excel.row_count == 90 (45 per component x 2 components)"
+        },
+        {
+          "name": "values_match_input",
+          "description": "All values should match input statistics",
+          "check": "excel.Time VPP matches statistics.时域纹波Vpp值"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "condition-name-mapping-accuracy",
+      "prompt": "Verify Condition Name in Excel is looked up from test_naming_rules.md, not extracted from condition_id. Standard conditions should map to Chinese names like '超越加速', '紧急制动', '静止高温', '直流充电暖风'. Slope conditions should map to '爬坡高温', '爬坡低温', '爬坡'.",
+      "expected_output": "Correct Chinese condition names from test_naming_rules.md in Condition Name column",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_RIPPLE",
+      "assertions": [
+        {
+          "name": "chinese_names_from_rules",
+          "description": "Condition names should be Chinese labels from rules",
+          "check": "condition_names contain ['超越加速', '爬坡高温', '静止高温', '直流充电暖风']"
+        },
+        {
+          "name": "no_raw_id_extraction",
+          "description": "Should not use raw condition_id as name",
+          "check": "no names like '82_匀速80暖风' format"
+        },
+        {
+          "name": "slope_conditions_mapped",
+          "description": "Slope conditions should map to correct names",
+          "check": "slope conditions contain '爬坡'"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "chinese-encoding-preservation",
+      "prompt": "Process data with GBK-encoded Chinese characters in statistics.xlsx and verify Chinese text is preserved correctly in output. No garbled characters like '��' should appear.",
+      "expected_output": "Chinese characters correctly displayed in Condition ID and Condition Name columns",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_RIPPLE",
+      "assertions": [
+        {
+          "name": "no_garbled_characters",
+          "description": "Output should not contain replacement characters",
+          "check": "no '��' characters in output"
+        },
+        {
+          "name": "chinese_readable",
+          "description": "Chinese text should be human-readable",
+          "check": "condition_names are valid Chinese strings"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "multi-format-complete-output",
+      "prompt": "Generate JSON, SQLite, and Excel outputs and verify all formats contain complete data without loss. Compare row counts across all formats.",
+      "expected_output": "Three output files with identical data completeness: 90 rows, all columns, no missing values",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_RIPPLE",
+      "assertions": [
+        {
+          "name": "json_complete",
+          "description": "JSON should have all 90 conditions",
+          "check": "total conditions in JSON == 90"
+        },
+        {
+          "name": "sqlite_complete",
+          "description": "SQLite should have all test_results",
+          "check": "test_results table has 90 rows"
+        },
+        {
+          "name": "excel_complete",
+          "description": "Excel should have all rows and columns",
+          "check": "Detailed Results has 90 rows and 13 columns"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "vehicle-data-processor-class-exists",
+      "prompt": "Verify VehicleDataProcessor class exists in scripts/core/vehicle_processor.py and can be imported from scripts.core module. This is critical for CLI tool to work.",
+      "expected_output": "VehicleDataProcessor class can be imported without ImportError",
+      "input_folder": "N/A - code structure test",
+      "assertions": [
+        {
+          "name": "class_file_exists",
+          "description": "vehicle_processor.py should exist in scripts/core/",
+          "check": "file exists: scripts/core/vehicle_processor.py"
+        },
+        {
+          "name": "class_importable",
+          "description": "VehicleDataProcessor can be imported from core",
+          "check": "from core import VehicleDataProcessor succeeds"
+        },
+        {
+          "name": "cli_tool_runs",
+          "description": "CLI tool process_vehicle.py runs without import error",
+          "check": "python scripts/cli/process_vehicle.py --help succeeds"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "excel-three-sheets-format",
+      "prompt": "Process vehicle data and verify Excel output has exactly 3 sheets: Vehicle Information, Component Summary, and Detailed Results. Compare format with reference V0002_RIPPLE_output.",
+      "expected_output": "Excel with 3 sheets matching V0002 format",
+      "input_folder": "E:/Vehicle_Date/V0003",
+      "assertions": [
+        {
+          "name": "three_sheets_exist",
+          "description": "Excel should have 3 sheets",
+          "check": "sheet_names == ['Vehicle Information', 'Component Summary', 'Detailed Results']"
+        },
+        {
+          "name": "vehicle_info_format",
+          "description": "Vehicle Information sheet should have Parameter|Value format",
+          "check": "column A: Parameter, column B: Value"
+        },
+        {
+          "name": "component_summary_format",
+          "description": "Component Summary should list all components with counts",
+          "check": "Component Code, Component Name, Unit, Conditions Count columns"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "eval_name": "image-path-absolute",
+      "prompt": "Process vehicle data and verify Image Path column in Excel contains absolute paths (e.g., E:\\Vehicle_Date\\V0003\\...) instead of relative paths (e.g., ACCM_A\\image.png).",
+      "expected_output": "Absolute file paths in Image Path column",
+      "input_folder": "E:/Vehicle_Date/V0003",
+      "assertions": [
+        {
+          "name": "absolute_paths_only",
+          "description": "All image paths should be absolute",
+          "check": "paths start with 'E:/' or drive letter, not component folder name"
+        },
+        {
+          "name": "valid_file_paths",
+          "description": "Paths should point to existing files",
+          "check": "os.path.exists(path) for all image paths"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+database:
+  default_path: F:/Vehicle_Database/vehicle_database.db
+  backup_dir: F:/Vehicle_Database/backups/
+
+import:
+  auto_detect: true
+  prefer_format: json
+  skip_existing: false
+
+  # Component name mappings: code -> display name
+  component_names:
+    FM_V: 前电驱系统直流母线端电压(V)
+    FM_A: 前电驱系统直流母线端电流(A)
+    RM_V: 后电驱系统直流母线端电压(V)
+    RM_A: 后电驱系统直流母线端电流(A)
+    ACCM_V: 电动压缩机电压(V)
+    ACCM_A: 电动压缩机电流(A)
+    PTC_V: PTC输入端电压(V)
+    PTC_A: PTC输入端电流(A)
+    DCC_V: 动力电池直流充电端电压(V)
+    DCC_A: 动力电池直流充电端电流(A)
+
+  # SOC level inference rules: keyword -> SOC level label
+  soc_levels:
+    - keywords: ['≥70', '>=70', '高电量']
+      label: '≥70%'
+    - keywords: ['≤40', '<=40', '低电量']
+      label: '≤40%'
+    - keywords: ['40-70', '中电量']
+      label: '40%-70%'
+
+  # Condition category inference rules: keyword -> category
+  categories:
+    充电: ['充电', '快充', '慢充']
+    制动: ['刹车', '制动']
+    加速: ['加速', '超车']
+    气候: ['暖风', '冷风', '空调']
+    爬坡: ['爬坡', '坡度']
+    巡航: ['滑行', '匀速', '巡航']
+
+  # Column name variants for Excel import detection
+  column_variants:
+    component: ['Component', '部件', 'component_code', 'Channel', '通道']
+    condition: ['Condition Name', '工况名称', 'Condition', 'condition_name']
+    condition_id: ['Condition ID', '工况ID', 'condition_id']
+    vpp: ['Vpp', 'Vpp(V)', '峰峰值', 'Vpp Value']
+    frequency: ['Freq(kHz)', 'Frequency', '频率', 'Peak Freq']
+    amplitude: ['Amplitude', '幅值', 'Peak Amp']
+    slope_max: ['Slope Max', '斜率最大', 'Max Slope']
+    slope_min: ['Slope Min', '斜率最小', 'Min Slope']
+    slope_max_abs: ['Slope Max Abs', '斜率绝对值最大', 'Max Abs Slope']
+
+git:
+  enabled: true
+  auto_commit: true
+  commit_message_template: "Import {vehicle_id} {data_type}"
+  repo_path: F:/Vehicle_Database/
+
+sync:
+  source_dir: F:/Vehicle_Date
+  source_path: null
+  watch_interval: 60
+  auto_import: false
+
+query:
+  default_output_format: table
+  max_results: 1000

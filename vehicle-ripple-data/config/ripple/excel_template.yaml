@@ -1,0 +1,245 @@
+version: "1.0"
+description: "纹波数据Excel报表模板 - V3.0格式"
+author: "System"
+last_updated: "2025-03-29"
+
+# 报表基本信息
+report_info:
+  name: "纹波数据报表V3"
+  version: "3.0"
+  description: "13列详细结果格式，匹配V0002参考格式"
+  data_type: "ripple"
+
+# 工作表定义
+sheets:
+  - name: "Vehicle Information"
+    description: "车辆基本信息"
+    layout: "vertical"  # vertical: 键值对纵向排列
+    order: 1
+    
+    # 列定义
+    columns:
+      - id: "parameter"
+        header: "Parameter"
+        width: 30
+        style: "header_gray"
+      
+      - id: "value"
+        header: "Value"
+        width: 50
+        style: "cell_normal"
+    
+    # 数据字段映射
+    fields:
+      - field: "vehicle_model"
+        display_name: "Vehicle Model"
+        category: "basic"
+        order: 1
+      
+      - field: "manufacturer"
+        display_name: "Manufacturer"
+        category: "basic"
+        order: 2
+      
+      - field: "level"
+        display_name: "Vehicle Level"
+        category: "basic"
+        order: 3
+      
+      - field: "energy_type"
+        display_name: "Energy Type"
+        category: "basic"
+        order: 4
+      
+      - field: "length_mm"
+        display_name: "Length (mm)"
+        category: "dimensions"
+        order: 5
+        format: "integer"
+      
+      - field: "width_mm"
+        display_name: "Width (mm)"
+        category: "dimensions"
+        order: 6
+        format: "integer"
+      
+      - field: "height_mm"
+        display_name: "Height (mm)"
+        category: "dimensions"
+        order: 7
+        format: "integer"
+      
+      - field: "wheelbase_mm"
+        display_name: "Wheelbase (mm)"
+        category: "dimensions"
+        order: 8
+        format: "integer"
+      
+      - field: "curb_weight_kg"
+        display_name: "Curb Weight (kg)"
+        category: "weight"
+        order: 9
+        format: "integer"
+      
+      - field: "motor_power_kw"
+        display_name: "Motor Power (kW)"
+        category: "powertrain"
+        order: 10
+        format: "integer"
+      
+      - field: "motor_torque_nm"
+        display_name: "Motor Torque (N·m)"
+        category: "powertrain"
+        order: 11
+        format: "integer"
+
+  - name: "Component Summary"
+    description: "组件汇总信息"
+    layout: "table"
+    order: 2
+    
+    columns:
+      - id: "component"
+        header: "Component"
+        field: "component_id"
+        width: 18
+        style: "header"
+      
+      - id: "channel"
+        header: "Channel"
+        field: "channel_name"
+        width: 35
+        style: "header"
+      
+      - id: "total_conditions"
+        header: "Total Conditions"
+        field: "condition_count"
+        width: 18
+        style: "header"
+        format: "integer"
+      
+      - id: "matched_conditions"
+        header: "Matched Conditions"
+        field: "matched_count"
+        width: 20
+        style: "header"
+        format: "integer"
+      
+      - id: "match_rate"
+        header: "Match Rate"
+        field: "match_rate"
+        width: 15
+        style: "header"
+        format: "percentage"
+
+  - name: "Detailed Results"
+    description: "详细测试结果 - 13列标准格式"
+    layout: "table"
+    order: 3
+    
+    columns:
+      - id: "condition_id"
+        header: "Condition ID"
+        field: "condition_id"
+        width: 20
+        style: "header"
+      
+      - id: "condition_name"
+        header: "Condition Name"
+        field: "condition_name"
+        width: 35
+        style: "header"
+        wrap: true
+      
+      - id: "mean"
+        header: "Mean Value"
+        field: "statistics.mean"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+        unit: "auto"  # 根据组件自动确定单位(V/A)
+      
+      - id: "std_dev"
+        header: "Std Dev"
+        field: "statistics.std_dev"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "min"
+        header: "Min"
+        field: "statistics.min"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "max"
+        header: "Max"
+        field: "statistics.max"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "peak"
+        header: "Peak Value"
+        field: "statistics.peak"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "time_effective"
+        header: "Time Effective"
+        field: "statistics.time_effective"
+        width: 18
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "peak_ranking"
+        header: "Peak Ranking"
+        field: "statistics.peak_ranking"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "freq_peak"
+        header: "Freq Peak Amp"
+        field: "statistics.freq_peak_amplitude"
+        width: 18
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "freq_rms"
+        header: "Freq RMS"
+        field: "statistics.freq_rms"
+        width: 15
+        style: "header"
+        format: "decimal_2"
+      
+      - id: "image_path"
+        header: "Image Path"
+        field: "image_path"
+        width: 50
+        style: "header"
+      
+      - id: "match_confidence"
+        header: "Match Confidence"
+        field: "match_confidence"
+        width: 18
+        style: "header"
+        format: "percentage"
+
+# 报表选项
+options:
+  freeze_panes: true              # 冻结首行
+  auto_filter: true               # 自动筛选
+  zebra_stripes: true             # 斑马纹
+  zebra_color: "light_gray"       # 斑马纹颜色
+  
+  # 条件格式（可选）
+  conditional_formatting:
+    - column: "match_confidence"
+      rules:
+        - condition: "value < 0.7"
+          style: "warning_cell"
+        - condition: "value < 0.4"
+          style: "error_cell"

@@ -1,0 +1,167 @@
+version: "1.0"
+description: "斜率数据Excel报表模板"
+author: "System"
+last_updated: "2025-03-29"
+
+# 引用基础样式和字段定义
+# 从vehicle-ripple-data继承common配置
+
+# 报表基本信息
+report_info:
+  name: "斜率数据报表"
+  version: "1.0"
+  description: "斜率统计数据报表，包含坡度信息"
+  data_type: "slope"
+
+# 工作表定义
+sheets:
+  - name: "Vehicle Information"
+    description: "车辆基本信息"
+    layout: "vertical"
+    order: 1
+    
+    # 列定义（与ripple-data相同）
+    columns:
+      - id: "parameter"
+        header: "Parameter"
+        width: 30
+        style: "header_gray"
+      
+      - id: "value"
+        header: "Value"
+        width: 50
+        style: "cell_normal"
+    
+    # 数据字段映射（与ripple-data共用字段定义）
+    # 实际字段列表从common/vehicle_fields.yaml加载
+    fields_source: "common/vehicle_fields"
+
+  - name: "Component Summary"
+    description: "组件斜率汇总信息"
+    layout: "table"
+    order: 2
+    
+    columns:
+      - id: "component"
+        header: "Component"
+        field: "component_id"
+        width: 18
+        style: "header"
+      
+      - id: "component_name"
+        header: "Component Name"
+        field: "component_name"
+        width: 35
+        style: "header"
+      
+      - id: "unit"
+        header: "Unit"
+        field: "unit"
+        width: 10
+        style: "header"
+      
+      - id: "conditions_count"
+        header: "Conditions Count"
+        field: "conditions_count"
+        width: 18
+        style: "header"
+        format: "integer"
+      
+      - id: "max_slope"
+        header: "Max Slope (V/s)"
+        field: "slope_max"
+        width: 20
+        style: "header"
+        format: "decimal_4"
+      
+      - id: "min_slope"
+        header: "Min Slope (V/s)"
+        field: "slope_min"
+        width: 20
+        style: "header"
+        format: "decimal_4"
+      
+      - id: "max_abs_slope"
+        header: "Max Abs Slope (V/s)"
+        field: "slope_max_abs"
+        width: 22
+        style: "header"
+        format: "decimal_4"
+
+  - name: "Detailed Results"
+    description: "详细斜率测试结果"
+    layout: "table"
+    order: 3
+    
+    columns:
+      - id: "no"
+        header: "No."
+        field: "sequence"
+        width: 8
+        style: "header"
+        format: "integer"
+      
+      - id: "component"
+        header: "Component"
+        field: "component_id"
+        width: 15
+        style: "header"
+      
+      - id: "unit"
+        header: "Unit"
+        field: "unit"
+        width: 8
+        style: "header"
+      
+      - id: "condition_id"
+        header: "Condition ID"
+        field: "condition_id"
+        width: 30
+        style: "header"
+      
+      - id: "condition_name"
+        header: "Condition Name"
+        field: "condition_name"
+        width: 35
+        style: "header"
+        wrap: true
+      
+      - id: "soc_level"
+        header: "SOC Level"
+        field: "soc_level"
+        width: 12
+        style: "header"
+      
+      - id: "slope_max"
+        header: "Slope Max (V/s)"
+        field: "slope.max_value"
+        width: 20
+        style: "header"
+        format: "decimal_4"
+      
+      - id: "slope_min"
+        header: "Slope Min (V/s)"
+        field: "slope.min_value"
+        width: 20
+        style: "header"
+        format: "decimal_4"
+      
+      - id: "slope_max_abs"
+        header: "Slope Max Abs (V/s)"
+        field: "slope.max_abs_value"
+        width: 22
+        style: "header"
+        format: "decimal_4"
+      
+      - id: "image_path"
+        header: "Image Path"
+        field: "image_path"
+        width: 50
+        style: "header"
+
+# 报表选项
+options:
+  freeze_panes: true
+  auto_filter: true
+  zebra_stripes: true
+  zebra_color: "light_gray"

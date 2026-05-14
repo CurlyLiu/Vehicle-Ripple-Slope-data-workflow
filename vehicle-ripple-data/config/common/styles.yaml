@@ -1,0 +1,171 @@
+version: "1.0"
+description: "Excel样式定义 - 统一报表样式"
+author: "System"
+last_updated: "2025-03-29"
+
+# 字体定义
+fonts:
+  header:
+    name: "Arial"
+    size: 11
+    bold: true
+    color: "FFFFFF"
+  
+  title:
+    name: "Arial"
+    size: 14
+    bold: true
+  
+  normal:
+    name: "Arial"
+    size: 10
+  
+  small:
+    name: "Arial"
+    size: 9
+  
+  bold:
+    name: "Arial"
+    size: 10
+    bold: true
+
+# 填充色定义
+fills:
+  header_blue:
+    patternType: "solid"
+    fgColor: "4472C4"
+  
+  header_gray:
+    patternType: "solid"
+    fgColor: "D9E1F2"
+  
+  light_blue:
+    patternType: "solid"
+    fgColor: "DDEBF7"
+  
+  light_gray:
+    patternType: "solid"
+    fgColor: "F2F2F2"
+  
+  warning:
+    patternType: "solid"
+    fgColor: "FFF2CC"
+  
+  error:
+    patternType: "solid"
+    fgColor: "FFC7CE"
+
+# 边框定义
+borders:
+  thin:
+    left:
+      style: "thin"
+      color: "000000"
+    right:
+      style: "thin"
+      color: "000000"
+    top:
+      style: "thin"
+      color: "000000"
+    bottom:
+      style: "thin"
+      color: "000000"
+  
+  medium:
+    left:
+      style: "medium"
+      color: "000000"
+    right:
+      style: "medium"
+      color: "000000"
+    top:
+      style: "medium"
+      color: "000000"
+    bottom:
+      style: "medium"
+      color: "000000"
+
+# 对齐方式
+alignments:
+  center:
+    horizontal: "center"
+    vertical: "center"
+    wrap_text: false
+  
+  left:
+    horizontal: "left"
+    vertical: "center"
+    wrap_text: false
+  
+  left_wrap:
+    horizontal: "left"
+    vertical: "center"
+    wrap_text: true
+  
+  right:
+    horizontal: "right"
+    vertical: "center"
+    wrap_text: false
+
+# 数字格式
+number_formats:
+  integer: "0"
+  decimal_1: "0.0"
+  decimal_2: "0.00"
+  decimal_4: "0.0000"
+  percentage: "0.00%"
+  scientific: "0.00E+00"
+
+# 预设样式组合
+styles:
+  header:
+    font: "header"
+    fill: "header_blue"
+    alignment: "center"
+    border: "thin"
+  
+  header_gray:
+    font: "bold"
+    fill: "header_gray"
+    alignment: "center"
+    border: "thin"
+  
+  cell_normal:
+    font: "normal"
+    alignment: "left"
+    border: "thin"
+  
+  cell_center:
+    font: "normal"
+    alignment: "center"
+    border: "thin"
+  
+  cell_number:
+    font: "normal"
+    alignment: "right"
+    border: "thin"
+    number_format: "decimal_2"
+  
+  cell_integer:
+    font: "normal"
+    alignment: "right"
+    border: "thin"
+    number_format: "integer"
+  
+  alternate_row:
+    font: "normal"
+    fill: "light_gray"
+    alignment: "left"
+    border: "thin"
+  
+  warning_cell:
+    font: "normal"
+    fill: "warning"
+    alignment: "center"
+    border: "thin"
+  
+  error_cell:
+    font: "normal"
+    fill: "error"
+    alignment: "center"
+    border: "thin"

@@ -1,0 +1,214 @@
+version: "1.0"
+description: "车辆信息字段映射配置 - 支持多种数据来源格式"
+author: "System"
+last_updated: "2025-03-29"
+
+# 字段映射定义
+# 每个字段定义了如何从原始数据中提取
+field_mappings:
+  vehicle_model:
+    description: "车型名称/车辆型号"
+    category: "basic"
+    required: true
+    default_value: "Unknown"
+    sources:
+      standard_format:      # 标准格式
+        - "车型"
+        - "车辆型号"
+        - "型号"
+        - "Model"
+      car_home_format:      # 汽车之家爬取格式
+        - "参数名称"
+        - "车型名称"
+      alternative:          # 其他可能
+        - "车辆名称"
+        - "Name"
+        - "Vehicle Model"
+    validation:
+      type: "string"
+      min_length: 1
+      max_length: 100
+
+  manufacturer:
+    description: "制造商/品牌/厂商"
+    category: "basic"
+    required: false
+    default_value: "Unknown"
+    sources:
+      standard_format:
+        - "制造商"
+        - "厂商"
+        - "品牌"
+      car_home_format:
+        - "品牌"
+        - "厂商"
+
+  level:
+    description: "车辆级别"
+    category: "basic"
+    required: false
+    sources:
+      - "级别"
+      - "车辆级别"
+      - "Level"
+
+  energy_type:
+    description: "能源类型"
+    category: "basic"
+    required: false
+    sources:
+      - "能源类型"
+      - "Energy Type"
+
+  length_mm:
+    description: "车长(mm)"
+    category: "dimensions"
+    required: false
+    sources:
+      standard_format:
+        - "长度(mm)"
+        - "车长"
+        - "车身长度"
+      car_home_format:
+        - "长度(mm)"
+        - "长度"
+    validation:
+      type: "number"
+      unit: "mm"
+
+  width_mm:
+    description: "车宽(mm)"
+    category: "dimensions"
+    required: false
+    sources:
+      standard_format:
+        - "宽度(mm)"
+        - "车宽"
+      car_home_format:
+        - "宽度(mm)"
+        - "宽度"
+
+  height_mm:
+    description: "车高(mm)"
+    category: "dimensions"
+    required: false
+    sources:
+      standard_format:
+        - "高度(mm)"
+        - "车高"
+      car_home_format:
+        - "高度(mm)"
+        - "高度"
+
+  wheelbase_mm:
+    description: "轴距(mm)"
+    category: "dimensions"
+    required: false
+    sources:
+      - "轴距(mm)"
+      - "轴距"
+
+  curb_weight_kg:
+    description: "整备质量(kg)"
+    category: "weight"
+    required: false
+    sources:
+      - "整备质量(kg)"
+      - "整备质量"
+
+  max_weight_kg:
+    description: "最大满载质量(kg)"
+    category: "weight"
+    required: false
+    sources:
+      - "最大满载质量(kg)"
+      - "最大满载质量"
+
+  motor_power_kw:
+    description: "电动机总功率(kW)"
+    category: "powertrain"
+    required: false
+    sources:
+      - "最大功率(kW)"
+      - "电动机总功率(kW)"
+
+  motor_torque_nm:
+    description: "电动机总扭矩(N·m)"
+    category: "powertrain"
+    required: false
+    sources:
+      - "最大扭矩(N·m)"
+      - "电动机总扭矩(N·m)"
+
+  battery_capacity_kwh:
+    description: "电池容量(kWh)"
+    category: "battery"
+    required: false
+    sources:
+      - "电池容量(kWh)"
+      - "电池能量(kWh)"
+
+  electric_range_km:
+    description: "纯电续航里程(km)"
+    category: "battery"
+    required: false
+    sources:
+      - "CLTC纯电续航里程(km)"
+      - "WLTC纯电续航里程(km)"
+      - "纯电续航里程(km)"
+
+# 提取策略配置
+extraction:
+  # 尝试顺序（优先级从高到低）
+  priority_order:
+    - "standard_format"
+    - "car_home_format"
+    - "alternative"
+  
+  # 匹配策略
+  strategy:
+    first_match_wins: true      # 第一个匹配即停止
+    case_sensitive: false       # 不区分大小写
+    normalize_whitespace: true  # 标准化空格
+  
+  # 后处理
+  post_process:
+    strip_whitespace: true
+    remove_empty: true
+    convert_numbers: true       # 尝试将数字字符串转为数值
+
+# 字段分类（用于Excel报表分组）
+categories:
+  basic:
+    name: "基本信息"
+    fields:
+      - vehicle_model
+      - manufacturer
+      - level
+      - energy_type
+  
+  dimensions:
+    name: "尺寸参数"
+    fields:
+      - length_mm
+      - width_mm
+      - height_mm
+      - wheelbase_mm
+  
+  weight:
+    name: "重量参数"
+    fields:
+      - curb_weight_kg
+      - max_weight_kg
+  
+  powertrain:
+    name: "动力系统"
+    fields:
+      - motor_power_kw
+      - motor_torque_nm
+  
+  battery:
+    name: "电池信息"
+    fields:
+      - battery_capacity_kwh
+      - electric_range_km

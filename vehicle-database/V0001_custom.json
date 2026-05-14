@@ -1,0 +1,1100 @@
+{
+  "vehicle": {
+    "vehicle_id": "V0001",
+    "vehicle_model": "Unknown",
+    "manufacturer": "Unknown"
+  },
+  "components": {
+    "FM_V": {
+      "conditions": {
+        "坡度10_82_匀速80暖风": {
+          "time_domain": {
+            "effective_value": 0.671135753944398,
+            "vpp": 5.828
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.683,
+            "peak_amplitude": 0.272,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_82_匀速80暖风_FM_V_5.83Vpp_1.68kHz_0.272V.png"
+        },
+        "坡度10_87_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.583741859072355,
+            "vpp": 5.069
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 3.254,
+            "peak_amplitude": 0.294,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_87_匀速80冷风_FM_V_5.07Vpp_3.25kHz_0.294V.png"
+        },
+        "坡度10_91_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.785583672542322,
+            "vpp": 17.434
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 10.231,
+            "peak_amplitude": 0.343,
+            "rms": 0.016
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_91_急加速0-80_FM_V_17.43Vpp_10.23kHz_0.343V.png"
+        },
+        "坡度10_30_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.734485760668839,
+            "vpp": 11.913
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.735,
+            "peak_amplitude": 0.289,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_30_急加速0-80_FM_V_11.91Vpp_2.73kHz_0.289V.png"
+        },
+        "坡度10_30_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.689536338186109,
+            "vpp": 6.205
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.565,
+            "peak_amplitude": 0.281,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_30_匀速80冷风_FM_V_6.21Vpp_1.56kHz_0.281V.png"
+        },
+        "坡度10_30_匀速80暖风": {
+          "time_domain": {
+            "effective_value": 0.762596328877975,
+            "vpp": 6.605
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 3.226,
+            "peak_amplitude": 0.366,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_30_匀速80暖风_FM_V_6.60Vpp_3.23kHz_0.366V.png"
+        },
+        "坡度10_48_匀速80冷暖风": {
+          "time_domain": {
+            "effective_value": 0.701076892086504,
+            "vpp": 6.407
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.681,
+            "peak_amplitude": 0.335,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_48_匀速80冷暖风_FM_V_6.41Vpp_1.68kHz_0.335V.png"
+        },
+        "坡度10_51_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.764469383165136,
+            "vpp": 11.193
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 18.251,
+            "peak_amplitude": 0.261,
+            "rms": 0.009
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_51_匀速80冷风_FM_V_11.19Vpp_18.25kHz_0.261V.png"
+        },
+        "坡度10_53_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.849261676453761,
+            "vpp": 17.892
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 17.357,
+            "peak_amplitude": 0.278,
+            "rms": 0.014
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\坡度10_53_急加速0-80_FM_V_17.89Vpp_17.36kHz_0.278V.png"
+        },
+        "18_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0809156514093923,
+            "vpp": 0.969
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.074,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\18_交流充电暖风_FM_V_0.97Vpp_24.00kHz_0.074V.png"
+        },
+        "18_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0863159548105219,
+            "vpp": 1.368
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.386,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\18_直流充电冷风_FM_V_1.37Vpp_0.39kHz_0.011V.png"
+        },
+        "19_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0823499479541595,
+            "vpp": 1.003
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.107,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\19_交流充电冷风_FM_V_1.00Vpp_24.00kHz_0.107V.png"
+        },
+        "25_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 0.987344553983566,
+            "vpp": 10.69
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.761,
+            "peak_amplitude": 0.243,
+            "rms": 0.01
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\25_急刹车120-0_FM_V_10.69Vpp_2.76kHz_0.243V.png"
+        },
+        "47_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 1.50835685408389,
+            "vpp": 16.658
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 12.121,
+            "peak_amplitude": 0.688,
+            "rms": 0.019
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\47_急刹车120-0_FM_V_16.66Vpp_12.12kHz_0.688V.png"
+        },
+        "85_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 1.80191954083728,
+            "vpp": 24.216
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.365,
+            "peak_amplitude": 1.08,
+            "rms": 0.02
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\85_急刹车120-0_FM_V_24.22Vpp_15.37kHz_1.080V.png"
+        },
+        "27_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.0992799513392064,
+            "vpp": 1.303
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.094,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\27_停车D档冷风_FM_V_1.30Vpp_24.00kHz_0.094V.png"
+        },
+        "27_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.0820150451875653,
+            "vpp": 1.718
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.392,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\27_停车D档暖风_FM_V_1.72Vpp_0.39kHz_0.012V.png"
+        },
+        "27_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0784217010133763,
+            "vpp": 1.428
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.387,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\27_直流充电暖风_FM_V_1.43Vpp_0.39kHz_0.012V.png"
+        },
+        "35_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0816607046543249,
+            "vpp": 1.457
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.387,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\35_直流充电暖风_FM_V_1.46Vpp_0.39kHz_0.012V.png"
+        },
+        "43_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0857205732305582,
+            "vpp": 1.434
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.388,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\43_直流充电冷风_FM_V_1.43Vpp_0.39kHz_0.011V.png"
+        },
+        "44_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.126490448195519,
+            "vpp": 1.288
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.142,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\44_停车D档冷风_FM_V_1.29Vpp_24.00kHz_0.142V.png"
+        },
+        "44_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.0965061255808229,
+            "vpp": 1.726
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.059,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\44_停车D档暖风_FM_V_1.73Vpp_24.00kHz_0.059V.png"
+        },
+        "45_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0861599542033487,
+            "vpp": 1.059
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.13,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\45_交流充电冷风_FM_V_1.06Vpp_24.00kHz_0.130V.png"
+        },
+        "47_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0799216110185011,
+            "vpp": 0.998
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.386,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\47_交流充电暖风_FM_V_1.00Vpp_0.39kHz_0.012V.png"
+        },
+        "81_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0873554408925086,
+            "vpp": 2.241
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.389,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\81_直流充电冷风_FM_V_2.24Vpp_0.39kHz_0.012V.png"
+        },
+        "84_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.0815671541095103,
+            "vpp": 1.092
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.097,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\84_交流充电冷风_FM_V_1.09Vpp_24.00kHz_0.097V.png"
+        },
+        "83_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0795423114325074,
+            "vpp": 1.499
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.392,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\83_交流充电暖风_FM_V_1.50Vpp_0.39kHz_0.012V.png"
+        },
+        "85_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.0824814343042921,
+            "vpp": 2.226
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.373,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\85_直流充电暖风_FM_V_2.23Vpp_0.37kHz_0.012V.png"
+        },
+        "95_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.404551821069016,
+            "vpp": 4.597
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.014,
+            "peak_amplitude": 0.234,
+            "rms": 0.003
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\95_匀速100冷风_FM_V_4.60Vpp_0.01kHz_0.234V.png"
+        },
+        "98_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.505194474653349,
+            "vpp": 11.931
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.861,
+            "peak_amplitude": 0.242,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\98_匀速100暖风_FM_V_11.93Vpp_2.86kHz_0.242V.png"
+        },
+        "90_急加速0-100": {
+          "time_domain": {
+            "effective_value": 1.80298533393236,
+            "vpp": 24.268
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 6.908,
+            "peak_amplitude": 0.678,
+            "rms": 0.021
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\90_急加速0-100_FM_V_24.27Vpp_6.91kHz_0.678V.png"
+        },
+        "60_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.496270225881017,
+            "vpp": 7.635
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.385,
+            "peak_amplitude": 0.31,
+            "rms": 0.006
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\60_滑行120-40_FM_V_7.63Vpp_2.38kHz_0.310V.png"
+        },
+        "91_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.381065354193086,
+            "vpp": 5.843
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 4.642,
+            "peak_amplitude": 0.274,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\91_滑行120-40_FM_V_5.84Vpp_4.64kHz_0.274V.png"
+        },
+        "48_急加速0-100": {
+          "time_domain": {
+            "effective_value": 1.35935943301949,
+            "vpp": 19.558
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 7.873,
+            "peak_amplitude": 0.48,
+            "rms": 0.022
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\48_急加速0-100_FM_V_19.56Vpp_7.87kHz_0.480V.png"
+        },
+        "55_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.497917098224941,
+            "vpp": 5.124
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.191,
+            "peak_amplitude": 0.296,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\55_匀速100暖风_FM_V_5.12Vpp_2.19kHz_0.296V.png"
+        },
+        "58_超车80-140": {
+          "time_domain": {
+            "effective_value": 1.73157750697279,
+            "vpp": 19.353
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 12.904,
+            "peak_amplitude": 1.42,
+            "rms": 0.024
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\58_超车80-140_FM_V_19.35Vpp_12.90kHz_1.420V.png"
+        },
+        "59_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.402286397630575,
+            "vpp": 4.14
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.018,
+            "peak_amplitude": 0.239,
+            "rms": 0.003
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\59_匀速100冷风_FM_V_4.14Vpp_0.02kHz_0.239V.png"
+        },
+        "82_超车80-140": {
+          "time_domain": {
+            "effective_value": 1.76669053942928,
+            "vpp": 17.869
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 7.921,
+            "peak_amplitude": 0.462,
+            "rms": 0.021
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\82_超车80-140_FM_V_17.87Vpp_7.92kHz_0.462V.png"
+        },
+        "83_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.0821687895656871,
+            "vpp": 1.543
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.388,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\83_停车D档暖风_FM_V_1.54Vpp_0.39kHz_0.012V.png"
+        },
+        "30_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.674175957591488,
+            "vpp": 5.93
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.016,
+            "peak_amplitude": 0.274,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\30_匀速100暖风_FM_V_5.93Vpp_0.02kHz_0.274V.png"
+        },
+        "30_超车80-140": {
+          "time_domain": {
+            "effective_value": 1.04065391064169,
+            "vpp": 15.199
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.918,
+            "peak_amplitude": 0.814,
+            "rms": 0.015
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\30_超车80-140_FM_V_15.20Vpp_0.92kHz_0.814V.png"
+        },
+        "29_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.726507225486737,
+            "vpp": 6.161
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 6.535,
+            "peak_amplitude": 0.265,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\29_匀速100冷风_FM_V_6.16Vpp_6.54kHz_0.265V.png"
+        },
+        "29_急加速0-100": {
+          "time_domain": {
+            "effective_value": 1.19846525365367,
+            "vpp": 16.78
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 7.901,
+            "peak_amplitude": 0.522,
+            "rms": 0.018
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\29_急加速0-100_FM_V_16.78Vpp_7.90kHz_0.522V.png"
+        },
+        "27_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.575943460868979,
+            "vpp": 8.257
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.013,
+            "peak_amplitude": 0.467,
+            "rms": 0.007
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\27_滑行120-40_FM_V_8.26Vpp_0.01kHz_0.467V.png"
+        },
+        "83_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.0901380078669456,
+            "vpp": 1.287
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.095,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\FM_V\\83_停车D档冷风_FM_V_1.29Vpp_24.00kHz_0.095V.png"
+        }
+      }
+    },
+    "RM_V": {
+      "conditions": {
+        "坡度10_82_匀速80暖风": {
+          "time_domain": {
+            "effective_value": 0.4550487220442891,
+            "vpp": 4.678
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.683,
+            "peak_amplitude": 0.246,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_82_匀速80暖风_RM_V_4.68Vpp_1.68kHz_0.246V.png"
+        },
+        "坡度10_87_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.3714986319079269,
+            "vpp": 3.909
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 3.256,
+            "peak_amplitude": 0.2,
+            "rms": 0.003
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_87_匀速80冷风_RM_V_3.91Vpp_3.26kHz_0.200V.png"
+        },
+        "坡度10_91_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.549812653684591,
+            "vpp": 13.044
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.392,
+            "peak_amplitude": 0.29,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_91_急加速0-80_RM_V_13.04Vpp_1.39kHz_0.290V.png"
+        },
+        "坡度10_30_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.5599822086660984,
+            "vpp": 8.653
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.388,
+            "peak_amplitude": 0.713,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_30_急加速0-80_RM_V_8.65Vpp_15.39kHz_0.713V.png"
+        },
+        "坡度10_30_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.5473652473580812,
+            "vpp": 5.02
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.323,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_30_匀速80冷风_RM_V_5.02Vpp_24.00kHz_0.323V.png"
+        },
+        "坡度10_30_匀速80暖风": {
+          "time_domain": {
+            "effective_value": 0.6137376876882414,
+            "vpp": 5.292
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.339,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_30_匀速80暖风_RM_V_5.29Vpp_24.00kHz_0.339V.png"
+        },
+        "坡度10_48_匀速80冷暖风": {
+          "time_domain": {
+            "effective_value": 0.5291052889807757,
+            "vpp": 4.864
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 1.681,
+            "peak_amplitude": 0.303,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_48_匀速80冷暖风_RM_V_4.86Vpp_1.68kHz_0.303V.png"
+        },
+        "坡度10_51_匀速80冷风": {
+          "time_domain": {
+            "effective_value": 0.5935710825876162,
+            "vpp": 8.802
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 16.0,
+            "peak_amplitude": 0.247,
+            "rms": 0.009
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_51_匀速80冷风_RM_V_8.80Vpp_16.00kHz_0.247V.png"
+        },
+        "坡度10_53_急加速0-80": {
+          "time_domain": {
+            "effective_value": 0.6299215687336278,
+            "vpp": 12.453
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 7.805,
+            "peak_amplitude": 0.307,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\坡度10_53_急加速0-80_RM_V_12.45Vpp_7.80kHz_0.307V.png"
+        },
+        "18_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.09758091112715024,
+            "vpp": 1.312
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.172,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\18_交流充电暖风_RM_V_1.31Vpp_24.00kHz_0.172V.png"
+        },
+        "18_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1237928162573765,
+            "vpp": 15.231
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.371,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\18_直流充电冷风_RM_V_15.23Vpp_0.37kHz_0.011V.png"
+        },
+        "19_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1165389155096693,
+            "vpp": 6.048
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 13.262,
+            "peak_amplitude": 0.097,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\19_交流充电冷风_RM_V_6.05Vpp_13.26kHz_0.097V.png"
+        },
+        "25_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 0.822166721065239,
+            "vpp": 9.466
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 11.028,
+            "peak_amplitude": 0.249,
+            "rms": 0.006
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\25_急刹车120-0_RM_V_9.47Vpp_11.03kHz_0.249V.png"
+        },
+        "47_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 1.185260019497285,
+            "vpp": 13.606
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 14.815,
+            "peak_amplitude": 2.682,
+            "rms": 0.018
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\47_急刹车120-0_RM_V_13.61Vpp_14.81kHz_2.682V.png"
+        },
+        "85_急刹车120-0": {
+          "time_domain": {
+            "effective_value": 1.342386877315543,
+            "vpp": 17.736
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.944,
+            "peak_amplitude": 0.464,
+            "rms": 0.015
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\85_急刹车120-0_RM_V_17.74Vpp_15.94kHz_0.464V.png"
+        },
+        "27_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.1715370856695244,
+            "vpp": 1.586
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.319,
+            "rms": 0.002
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\27_停车D档冷风_RM_V_1.59Vpp_24.00kHz_0.319V.png"
+        },
+        "27_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.08644676734459698,
+            "vpp": 1.764
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.392,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\27_停车D档暖风_RM_V_1.76Vpp_0.39kHz_0.011V.png"
+        },
+        "27_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.08075421570125105,
+            "vpp": 6.671
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.37,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\27_直流充电暖风_RM_V_6.67Vpp_0.37kHz_0.012V.png"
+        },
+        "35_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.09914696196183265,
+            "vpp": 8.967
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.388,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\35_直流充电暖风_RM_V_8.97Vpp_0.39kHz_0.011V.png"
+        },
+        "43_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1195184409858305,
+            "vpp": 11.12
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.363,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\43_直流充电冷风_RM_V_11.12Vpp_0.36kHz_0.011V.png"
+        },
+        "44_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.2679127294914618,
+            "vpp": 1.707
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.369,
+            "rms": 0.002
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\44_停车D档冷风_RM_V_1.71Vpp_24.00kHz_0.369V.png"
+        },
+        "44_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.1592651292888534,
+            "vpp": 1.88
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.153,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\44_停车D档暖风_RM_V_1.88Vpp_24.00kHz_0.153V.png"
+        },
+        "45_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1297526886660399,
+            "vpp": 5.625
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.0,
+            "peak_amplitude": 0.046,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\45_交流充电冷风_RM_V_5.62Vpp_15.00kHz_0.046V.png"
+        },
+        "47_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.09883195808197401,
+            "vpp": 5.815
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 13.261,
+            "peak_amplitude": 0.077,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\47_交流充电暖风_RM_V_5.82Vpp_13.26kHz_0.077V.png"
+        },
+        "81_直流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1169302267508571,
+            "vpp": 7.783
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.371,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\81_直流充电冷风_RM_V_7.78Vpp_0.37kHz_0.011V.png"
+        },
+        "84_交流充电冷风": {
+          "time_domain": {
+            "effective_value": 0.1027597187249478,
+            "vpp": 4.424
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.512,
+            "peak_amplitude": 0.074,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\84_交流充电冷风_RM_V_4.42Vpp_15.51kHz_0.074V.png"
+        },
+        "83_交流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.08947247900904672,
+            "vpp": 3.221
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.392,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\83_交流充电暖风_RM_V_3.22Vpp_0.39kHz_0.011V.png"
+        },
+        "85_直流充电暖风": {
+          "time_domain": {
+            "effective_value": 0.09196497335331003,
+            "vpp": 8.441
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.373,
+            "peak_amplitude": 0.012,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\85_直流充电暖风_RM_V_8.44Vpp_0.37kHz_0.012V.png"
+        },
+        "95_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.3855054571283357,
+            "vpp": 4.734
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.014,
+            "peak_amplitude": 0.234,
+            "rms": 0.003
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\95_匀速100冷风_RM_V_4.73Vpp_0.01kHz_0.234V.png"
+        },
+        "98_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.4278435475916433,
+            "vpp": 8.513
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 2.861,
+            "peak_amplitude": 0.185,
+            "rms": 0.007
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\98_匀速100暖风_RM_V_8.51Vpp_2.86kHz_0.185V.png"
+        },
+        "90_急加速0-100": {
+          "time_domain": {
+            "effective_value": 1.34527115783582,
+            "vpp": 17.698
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 15.943,
+            "peak_amplitude": 0.462,
+            "rms": 0.014
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\90_急加速0-100_RM_V_17.70Vpp_15.94kHz_0.462V.png"
+        },
+        "60_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.4190705617393105,
+            "vpp": 7.162
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.81,
+            "peak_amplitude": 0.33,
+            "rms": 0.006
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\60_滑行120-40_RM_V_7.16Vpp_0.81kHz_0.330V.png"
+        },
+        "91_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.3048453324519982,
+            "vpp": 5.21
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.015,
+            "peak_amplitude": 0.34,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\91_滑行120-40_RM_V_5.21Vpp_0.01kHz_0.340V.png"
+        },
+        "48_急加速0-100": {
+          "time_domain": {
+            "effective_value": 1.049361431060675,
+            "vpp": 15.404
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 7.873,
+            "peak_amplitude": 0.253,
+            "rms": 0.013
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\48_急加速0-100_RM_V_15.40Vpp_7.87kHz_0.253V.png"
+        },
+        "55_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.5019846612177663,
+            "vpp": 5.304
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.729,
+            "peak_amplitude": 0.249,
+            "rms": 0.004
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\55_匀速100暖风_RM_V_5.30Vpp_0.73kHz_0.249V.png"
+        },
+        "58_超车80-140": {
+          "time_domain": {
+            "effective_value": 1.314858445229169,
+            "vpp": 15.577
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 12.904,
+            "peak_amplitude": 1.047,
+            "rms": 0.019
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\58_超车80-140_RM_V_15.58Vpp_12.90kHz_1.047V.png"
+        },
+        "59_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.4273476880285875,
+            "vpp": 4.554
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.018,
+            "peak_amplitude": 0.238,
+            "rms": 0.003
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\59_匀速100冷风_RM_V_4.55Vpp_0.02kHz_0.238V.png"
+        },
+        "82_超车80-140": {
+          "time_domain": {
+            "effective_value": 1.34434819570567,
+            "vpp": 14.165
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.538,
+            "peak_amplitude": 0.297,
+            "rms": 0.013
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\82_超车80-140_RM_V_14.17Vpp_0.54kHz_0.297V.png"
+        },
+        "83_停车D档暖风": {
+          "time_domain": {
+            "effective_value": 0.08778550681980221,
+            "vpp": 1.512
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.388,
+            "peak_amplitude": 0.011,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\83_停车D档暖风_RM_V_1.51Vpp_0.39kHz_0.011V.png"
+        },
+        "30_匀速100暖风": {
+          "time_domain": {
+            "effective_value": 0.605789742220968,
+            "vpp": 5.591
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.018,
+            "peak_amplitude": 0.302,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\30_匀速100暖风_RM_V_5.59Vpp_0.02kHz_0.302V.png"
+        },
+        "30_超车80-140": {
+          "time_domain": {
+            "effective_value": 0.7807961005236715,
+            "vpp": 12.471
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.905,
+            "peak_amplitude": 0.896,
+            "rms": 0.011
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\30_超车80-140_RM_V_12.47Vpp_0.91kHz_0.896V.png"
+        },
+        "29_匀速100冷风": {
+          "time_domain": {
+            "effective_value": 0.6828643584820729,
+            "vpp": 6.373
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.308,
+            "rms": 0.005
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\29_匀速100冷风_RM_V_6.37Vpp_24.00kHz_0.308V.png"
+        },
+        "29_急加速0-100": {
+          "time_domain": {
+            "effective_value": 0.9273805528391739,
+            "vpp": 12.181
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 14.286,
+            "peak_amplitude": 1.967,
+            "rms": 0.014
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\29_急加速0-100_RM_V_12.18Vpp_14.29kHz_1.967V.png"
+        },
+        "27_滑行120-40": {
+          "time_domain": {
+            "effective_value": 0.477999454539532,
+            "vpp": 8.079
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 0.021,
+            "peak_amplitude": 0.322,
+            "rms": 0.006
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\27_滑行120-40_RM_V_8.08Vpp_0.02kHz_0.322V.png"
+        },
+        "83_停车D档冷风": {
+          "time_domain": {
+            "effective_value": 0.1311585511456628,
+            "vpp": 1.374
+          },
+          "frequency_domain": {
+            "peak_frequency_khz": 24.004,
+            "peak_amplitude": 0.25,
+            "rms": 0.001
+          },
+          "image_path": "E:\\Vehicle_Date\\V0001\\V0001_RIPPLE\\RM_V\\83_停车D档冷风_RM_V_1.37Vpp_24.00kHz_0.250V.png"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "export_date": "2026-04-19T09:37:28.199134"
+  }
+}

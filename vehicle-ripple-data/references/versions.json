@@ -1,0 +1,24 @@
+{
+  "test_naming_rules": {
+    "current": "1.0",
+    "versions": {
+      "1.0": {
+        "file": "test_naming_rules.md",
+        "date": "2025-01-15",
+        "conditions_count": 54,
+        "changelog": "初始版本，覆盖基本驾驶工况"
+      }
+    }
+  },
+  "sensor_naming_rules": {
+    "current": "1.0",
+    "versions": {
+      "1.0": {
+        "file": "sensor_naming_rules.md",
+        "date": "2025-01-15",
+        "channels": 19,
+        "changelog": "初始版本"
+      }
+    }
+  }
+}

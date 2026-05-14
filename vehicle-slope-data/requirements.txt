@@ -1,0 +1,8 @@
+# vehicle-slope-data 依赖项
+# 斜率技能依赖 vehicle-ripple-data 的依赖
+# 安装: pip install -r requirements.txt
+
+# 引用主技能依赖
+-r ../vehicle-ripple-data/requirements.txt
+
+# 斜率技能特有依赖（当前无）

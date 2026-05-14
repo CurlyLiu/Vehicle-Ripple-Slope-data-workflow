@@ -1,0 +1,169 @@
+{
+  "skill_name": "vehicle-slope-data",
+  "version": "1.2",
+  "version_date": "2025-03-24",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "slope-complete-data-output",
+      "prompt": "Process vehicle slope data from E:\\Vehicle_Date\\V0001\\V0001_SLOPE and verify ALL 4 columns from statistics.xlsx are output to Excel: 文件名, 斜率最大值(V/s), 斜率最小值(V/s), 斜率绝对值最大值(V/s). Ensure no data is lost.",
+      "expected_output": "Excel report with all 4 slope data columns preserved: Max Slope, Min Slope, Max Abs Slope",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "all_slope_columns_present",
+          "description": "All 4 slope columns should be in Excel output",
+          "check": "excel.columns contain ['文件名', '斜率最大值(V/s)', '斜率最小值(V/s)', '斜率绝对值最大值(V/s)']"
+        },
+        {
+          "name": "no_data_loss",
+          "description": "No data rows should be lost",
+          "check": "excel.row_count == statistics.row_count for each component"
+        },
+        {
+          "name": "slope_values_correct",
+          "description": "Slope values should match input data",
+          "check": "excel.斜率最大值 matches statistics.斜率最大值"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "slope-encoding-handling",
+      "prompt": "Process slope data with GBK-encoded Chinese characters in statistics.xlsx. Verify Condition Name is correctly looked up from test_naming_rules.md and Chinese text is preserved.",
+      "expected_output": "Correct Chinese condition names in output, no garbled text",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "condition_name_mapping",
+          "description": "Condition names should be looked up from rules",
+          "check": "condition_names contain Chinese labels like '爬坡高温', '超越加速'"
+        },
+        {
+          "name": "no_garbled_text",
+          "description": "Output should not contain encoding errors",
+          "check": "no '��' characters in output"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "slope-multi-format-output",
+      "prompt": "Generate JSON, SQLite, and Excel outputs for slope data. Verify all formats contain complete data without loss.",
+      "expected_output": "Three output files: JSON, SQLite, Excel, all with complete data",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "json_output_complete",
+          "description": "JSON should have all slope data",
+          "check": "json.components.FM_V.conditions count == 45"
+        },
+        {
+          "name": "sqlite_output_complete",
+          "description": "SQLite should have all records",
+          "check": "sqlite.slope_results row count == 90"
+        },
+        {
+          "name": "excel_output_complete",
+          "description": "Excel should have all columns and rows",
+          "check": "excel.Detailed Results row count == 90"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "slope-sensor-rules-validation",
+      "prompt": "Validate that all component folders in V0001_SLOPE match sensor_naming_rules and units are correctly assigned.",
+      "expected_output": "Validation report showing all folders valid with correct units",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "all_components_valid",
+          "description": "All component folders should be valid sensor codes",
+          "check": "FM_V in sensor_rules and RM_V in sensor_rules"
+        },
+        {
+          "name": "units_correct",
+          "description": "Units should be V for voltage channels",
+          "check": "FM_V.unit == 'V' and RM_V.unit == 'V'"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "slope-output-folder-naming",
+      "prompt": "Process slope data and verify output folder is named {VehicleID}_SLOPE_output (not SKILL_output), matching vehicle-ripple-data naming convention.",
+      "expected_output": "Output folder named V0001_SLOPE_output containing all generated files",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "output_folder_naming",
+          "description": "Output folder should be named {VehicleID}_SLOPE_output",
+          "check": "output_dir.name == 'V0001_SLOPE_output'"
+        },
+        {
+          "name": "files_in_correct_folder",
+          "description": "All output files should be in the correctly named folder",
+          "check": "V0001_SLOPE_data.json exists in V0001_SLOPE_output"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "slope-vehicle-info-excel",
+      "prompt": "Process slope data and verify Vehicle Information sheet in Excel contains vehicle data (not blank). Vehicle info should be loaded from parent folder if not found in SLOPE subfolder.",
+      "expected_output": "Excel with Vehicle Information sheet containing all vehicle parameters",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "vehicle_info_not_empty",
+          "description": "Vehicle Information sheet should have data",
+          "check": "excel.Vehicle Information row count > 0"
+        },
+        {
+          "name": "vehicle_info_from_parent",
+          "description": "Should load vehicle_info from parent folder if not in SLOPE folder",
+          "check": "vehicle_info loaded from V0001 not V0001_SLOPE"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "eval_name": "slope-condition-name-mapping",
+      "prompt": "Process slope data and verify Condition Name in Detailed Results is correctly mapped from test_naming_rules.md using same logic as vehicle-ripple-data skill (exact match, bracket removal, feature-based matching).",
+      "expected_output": "Condition Names correctly mapped to standard names like '爬坡高温', '超越加速', '静止低温'",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "condition_name_mapped",
+          "description": "Condition names should be looked up from rules, not raw IDs",
+          "check": "condition_names are standard Chinese labels not raw IDs"
+        },
+        {
+          "name": "condition_name_logic_matches_ripple",
+          "description": "Should use same matching logic as vehicle-ripple-data",
+          "check": "uses exact match, bracket removal, feature-based matching"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "eval_name": "slope-vehicle-info-vertical-layout",
+      "prompt": "Process slope data and verify Vehicle Information sheet in Excel uses vertical layout (Parameter | Value columns) instead of horizontal layout.",
+      "expected_output": "Excel with Vehicle Information in vertical format with two columns: Parameter and Value",
+      "input_folder": "E:/Vehicle_Date/V0001/V0001_SLOPE",
+      "assertions": [
+        {
+          "name": "vertical_layout",
+          "description": "Vehicle Information should have vertical layout with Parameter and Value columns",
+          "check": "excel.Vehicle Information columns == ['Parameter', 'Value']"
+        },
+        {
+          "name": "multiple_rows",
+          "description": "Vehicle Information should have multiple rows (one per parameter)",
+          "check": "excel.Vehicle Information row count > 1"
+        }
+      ]
+    }
+  ]
+}

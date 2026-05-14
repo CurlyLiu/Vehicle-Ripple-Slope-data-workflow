@@ -1,0 +1,26 @@
+[run]
+source = scripts
+disable_warnings = module-not-imported
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if __name__ == .__main__.:
+    raise NotImplementedError
+    pass
+
+omit =
+    scripts/tests/*
+    scripts/demo_rule_merge.py
+    scripts/generate_error_report.py
+    scripts/generate_readme_with_quality_report.py
+    scripts/handle_column_mismatch.py
+    scripts/incremental_processor.py
+    scripts/test_image_parsing.py
+    scripts/validate_rules.py
+    scripts/version_utils.py
+    scripts/cli/*
+
+[html]
+directory = coverage_html

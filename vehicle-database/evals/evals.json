@@ -1,0 +1,54 @@
+{
+  "skill_name": "vehicle-database",
+  "evals": [
+    {
+      "id": 1,
+      "name": "init-database",
+      "prompt": "Initialize a new vehicle database at F:/Vehicle_Database/test_vehicle.db",
+      "expected_output": "Database initialized successfully with all tables created",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "name": "import-json-ripple",
+      "prompt": "Import V0001 RIPPLE data from F:/Vehicle_Date/V0001/V0001_RIPPLE/V0001_RIPPLE_output/V0001_RIPPLE_data.json",
+      "expected_output": "Successfully imported 2 components with 90 conditions",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "name": "import-json-slope",
+      "prompt": "Import V0001 SLOPE data from F:/Vehicle_Date/V0001/V0001_SLOPE/V0001_SLOPE_output/V0001_SLOPE_data.json",
+      "expected_output": "Successfully imported 2 components with 90 conditions",
+      "assertions": []
+    },
+    {
+      "id": 4,
+      "name": "query-vehicle",
+      "prompt": "Query vehicle information for V0001 from the database",
+      "expected_output": "Display vehicle ID, model, manufacturer, and energy type",
+      "assertions": []
+    },
+    {
+      "id": 5,
+      "name": "query-component",
+      "prompt": "Query component data for FM_V in vehicle V0001",
+      "expected_output": "Display component code, name, and test results",
+      "assertions": []
+    },
+    {
+      "id": 6,
+      "name": "query-stats",
+      "prompt": "Show database statistics",
+      "expected_output": "Display counts of vehicles, components, conditions, ripple and slope results",
+      "assertions": []
+    },
+    {
+      "id": 7,
+      "name": "batch-import",
+      "prompt": "Batch import all vehicles from F:/Vehicle_Date folder",
+      "expected_output": "Successfully import all vehicle folders (V0001-V0005)",
+      "assertions": []
+    }
+  ]
+}
