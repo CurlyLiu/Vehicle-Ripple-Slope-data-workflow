@@ -327,7 +327,7 @@ rms             = row.iloc[6]
 ```python
 # 模块级正则模式（定义在类外部，编译一次复用）
 _SLOPE_PREFIX_PATTERN = re.compile(
-    r'^(坡度|�¶�)\s*10(?![0-9])[_\-\s]*(\d+)[_\-\s]',
+    r'^(坡度|\xC6\xC2\xB6\xC8)\s*10(?![0-9])[_\-\s]*(\d+)[_\-\s]',
     re.IGNORECASE
 )
 _SOC_PATTERN = re.compile(r'^(\d+)[_\-\s]')
@@ -335,12 +335,12 @@ _SOC_PATTERN = re.compile(r'^(\d+)[_\-\s]')
 def _normalize_condition_id(self, condition_id: str) -> str:
     """规范化 condition_id，处理 GBK 乱码坡度前缀
 
-    GBK编码下"坡度"可能被读取为乱码(如�¶�)，需统一替换为标准前缀，
+    GBK编码下"坡度"可能被读取为乱码(如\xC6\xC2\xB6\xC8)，需统一替换为标准前缀，
     确保xlsx中的condition_id与图片文件名中的condition_id能够匹配。
     """
     if not condition_id:
         return condition_id
-    return re.sub(r'^�¶�\s*10(?![0-9])', '坡度10', condition_id)
+    return re.sub(r'^\xC6\xC2\xB6\xC8\s*10(?![0-9])', '坡度10', condition_id)
 
 def _extract_soc(self, condition_id: str) -> Optional[int]:
     """从 condition_id 中提取 SOC 值
@@ -352,7 +352,7 @@ def _extract_soc(self, condition_id: str) -> Optional[int]:
       -  dash分隔: 55-直流充电暖风 → SOC=55
       - 空格分隔: 55 直流充电暖风 → SOC=55
     支持的GBK乱码:
-      - �¶�10_82_匀速80暖风 → SOC=82 (经 _normalize_condition_id 处理后)
+      - \xC6\xC2\xB6\xC810_82_匀速80暖风 → SOC=82 (经 _normalize_condition_id 处理后)
     """
     if not condition_id:
         return None
@@ -386,7 +386,7 @@ def get_soc_level(soc):
 | 1 | 精确匹配 | condition_id完全一致 | `87_超车80-140(运动模式)` → `超越加速` |
 | 2 | 归一化匹配 | 括号差异 `()` vs `（）` | `87_超车80-140（运动模式）` → `超越加速` |
 | 3 | 模糊匹配 | Levenshtein距离<阈值 | `87_超车80-140运动模式` → `超越加速` |
-| 4 | 特征匹配 | 提取关键词+SOC+坡度标志 | `�¶�10_81_匀速80暖风` (GBK乱码) → `爬坡高温` |
+| 4 | 特征匹配 | 提取关键词+SOC+坡度标志 | `\xC6\xC2\xB6\xC810_81_匀速80暖风` (GBK乱码) → `爬坡高温` |
 
 **特征提取支持的分隔符 (V3.5 更新):**
 
@@ -2036,7 +2036,7 @@ python vehicle_database.py stats
 | 高 | Excel列名乱码 | KeyError | 强制使用`iloc`索引访问 |
 | 高 | 图片匹配失败 | image_path为null | 验证文件名解析逻辑，检查两种格式 |
 | 高 | **SOC提取分隔符不兼容** | 大量Unknown SOC分级 | V3.5统一正则: `_SOC_PATTERN = re.compile(r'^(\d+)[_\-\s]')` 支持`_` `-` `空格`三种分隔符 |
-| 高 | **坡度前缀GBK乱码** | 爬坡工况无法匹配图片 | V3.5 `_normalize_condition_id()` 将`�¶�10`替换为`坡度10`，统一xlsx与图片文件名的condition_id |
+| 高 | **坡度前缀GBK乱码** | 爬坡工况无法匹配图片 | V3.5 `_normalize_condition_id()` 将`\xC6\xC2\xB6\xC810`替换为`坡度10`，统一xlsx与图片文件名的condition_id |
 | 中 | 工况名称不匹配 | 报告中显示原始ID | 四级模糊匹配策略 |
 | 中 | SOC分级错误 | 数据归入错误区间 | 必须从condition_id直接提取数字 |
 | 中 | **图片文件名非标准标记** | `xpp`/`Xpp`标记导致解析失败 | V3.5扩展检测: `any(marker in part for marker in ('Ipp','Vpp','ipp','vpp','xpp','Xpp'))` |
@@ -2347,8 +2347,8 @@ python vehicle_database.py stats
     - 涉及的组件: `vehicle_processor.py`, `slope_processor.py`, `generate_excel_report.py`, `condition_matcher.py`
 
 15. **坡度前缀 GBK 乱码处理** ✅
-    - 问题: xlsx 文件以 GBK 编码保存时，"坡度"被读取为乱码（如 `�¶�`），导致 `condition_id.startswith('坡度10_')` 判断失败，爬坡工况无法正确提取 SOC 和匹配图片
-    - 修复: 新增 `_normalize_condition_id()` 方法，将 `^�¶�\s*10(?![0-9])` 统一替换为 `坡度10`，确保 xlsx 中的 condition_id 与图片文件名一致
+    - 问题: xlsx 文件以 GBK 编码保存时，"坡度"被读取为乱码（如 `\xC6\xC2\xB6\xC8`），导致 `condition_id.startswith('坡度10_')` 判断失败，爬坡工况无法正确提取 SOC 和匹配图片
+    - 修复: 新增 `_normalize_condition_id()` 方法，将 `^\xC6\xC2\xB6\xC8\s*10(?![0-9])` 统一替换为 `坡度10`，确保 xlsx 中的 condition_id 与图片文件名一致
     - 涉及的组件: `vehicle_processor.py`, `slope_processor.py`
 
 16. **图片文件名非标准标记 `xpp` 兼容** ✅
