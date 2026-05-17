@@ -492,7 +492,7 @@ def _parse_image_filenames(self, img_dir: Path) -> List[Dict[str, Any]]:
 CREATE TABLE vehicles (
   vehicle_id TEXT PRIMARY KEY,
   vehicle_model TEXT,
-  vehicle_info TEXT  -- JSON字符串存储完整27个参数
+  vehicle_info TEXT  -- JSON字符串存储完整车辆配置信息(全部原始字段)
 );
 
 CREATE TABLE components (

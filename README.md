@@ -521,7 +521,7 @@ def _parse_image_filenames(self, img_dir: Path) -> List[Dict[str, Any]]:
 CREATE TABLE vehicles (
   vehicle_id TEXT PRIMARY KEY,
   vehicle_model TEXT,
-  vehicle_info TEXT  -- JSON string storing full 27 parameters
+  vehicle_info TEXT  -- JSON string storing complete vehicle configuration (all original fields)
 );
 
 CREATE TABLE components (
