@@ -110,10 +110,24 @@ class JsonExporter(BaseExporter):
         columns = [desc[0] for desc in cursor.description]
         vehicle_data = dict(zip(columns, row))
 
-        vehicle_info = {
-            k: v for k, v in vehicle_data.items()
-            if k != "vehicle_id" and v is not None
-        }
+        # Priority: use vehicle_info_json if available (contains complete original data)
+        # Fallback: build from individual columns
+        vehicle_info_json_str = vehicle_data.get("vehicle_info_json")
+        if vehicle_info_json_str:
+            try:
+                vehicle_info = json.loads(vehicle_info_json_str)
+            except (json.JSONDecodeError, ValueError):
+                vehicle_info = {
+                    k: v for k, v in vehicle_data.items()
+                    if k not in ("vehicle_id", "vehicle_info_json", "created_at", "updated_at")
+                    and v is not None
+                }
+        else:
+            vehicle_info = {
+                k: v for k, v in vehicle_data.items()
+                if k not in ("vehicle_id", "vehicle_info_json", "created_at", "updated_at")
+                and v is not None
+            }
 
         result = {
             "vehicle": {
