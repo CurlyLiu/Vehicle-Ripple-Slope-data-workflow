@@ -155,25 +155,45 @@ class JsonExporter(BaseExporter):
 
             if self.data_type == 'ripple':
                 cursor.execute("""
-                    SELECT condition_id, vpp_value, peak_frequency_khz,
-                           peak_amplitude, frequency_rms, image_path
-                    FROM ripple_results
-                    WHERE vehicle_id = ? AND component_code = ?
+                    SELECT
+                        r.condition_id,
+                        r.time_domain_effective_value,
+                        r.vpp_value,
+                        r.peak_ranking_json,
+                        r.peak_frequency_khz,
+                        r.peak_amplitude,
+                        r.frequency_rms,
+                        r.image_path,
+                        r.match_confidence,
+                        r.match_method,
+                        tc.condition_name,
+                        tc.soc_level
+                    FROM ripple_results r
+                    LEFT JOIN test_conditions tc ON r.condition_id = tc.condition_id
+                    WHERE r.vehicle_id = ? AND r.component_code = ?
                 """, (vehicle_id, comp_code))
 
                 for r_row in cursor.fetchall():
                     cond_id = r_row[0]
-                    result["components"][comp_code]["conditions"][cond_id] = {
+                    cond = {
+                        "condition_id": cond_id,
+                        "condition_name": r_row[10] or cond_id,
+                        "soc_level": r_row[11] or "",
                         "time_domain": {
-                            "vpp": r_row[1]
+                            "effective_value": r_row[1],
+                            "vpp": r_row[2]
                         },
                         "frequency_domain": {
-                            "peak_frequency_khz": r_row[2],
-                            "peak_amplitude": r_row[3],
-                            "rms": r_row[4]
+                            "peak_ranking": self._parse_peak_ranking(r_row[3]),
+                            "peak_frequency_khz": r_row[4],
+                            "peak_amplitude": r_row[5],
+                            "rms": r_row[6]
                         },
-                        "image_path": r_row[5] or ""
+                        "image_path": r_row[7] or "",
+                        "match_method": r_row[9] or "",
+                        "match_confidence": r_row[8]
                     }
+                    result["components"][comp_code]["conditions"][cond_id] = cond
 
                 # Optionally merge slope data if present (backward compat for single-db)
                 cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='slope_results'")
@@ -201,22 +221,37 @@ class JsonExporter(BaseExporter):
             else:
                 # slope data type
                 cursor.execute("""
-                    SELECT condition_id, slope_max, slope_min,
-                           slope_max_abs, slope_unit, image_path
-                    FROM slope_results
-                    WHERE vehicle_id = ? AND component_code = ?
+                    SELECT
+                        s.condition_id,
+                        s.slope_max,
+                        s.slope_min,
+                        s.slope_max_abs,
+                        s.slope_unit,
+                        s.image_path,
+                        s.match_confidence,
+                        s.match_method,
+                        tc.condition_name,
+                        tc.soc_level
+                    FROM slope_results s
+                    LEFT JOIN test_conditions tc ON s.condition_id = tc.condition_id
+                    WHERE s.vehicle_id = ? AND s.component_code = ?
                 """, (vehicle_id, comp_code))
 
                 for s_row in cursor.fetchall():
                     cond_id = s_row[0]
                     result["components"][comp_code]["conditions"][cond_id] = {
+                        "condition_id": cond_id,
+                        "condition_name": s_row[8] or cond_id,
+                        "soc_level": s_row[9] or "",
                         "slope": {
                             "slope_max": s_row[1],
                             "slope_min": s_row[2],
                             "slope_max_abs": s_row[3],
                             "slope_unit": s_row[4] or "V/s"
                         },
-                        "image_path": s_row[5] or ""
+                        "image_path": s_row[5] or "",
+                        "match_method": s_row[7] or "",
+                        "match_confidence": s_row[6]
                     }
 
                 # Optionally merge ripple data if present (backward compat for single-db)
@@ -225,7 +260,8 @@ class JsonExporter(BaseExporter):
 
                 if has_ripple:
                     cursor.execute("""
-                        SELECT condition_id, vpp_value, peak_frequency_khz,
+                        SELECT condition_id, time_domain_effective_value, vpp_value,
+                               peak_ranking_json, peak_frequency_khz,
                                peak_amplitude, frequency_rms, image_path
                         FROM ripple_results
                         WHERE vehicle_id = ? AND component_code = ?
@@ -235,15 +271,17 @@ class JsonExporter(BaseExporter):
                         cond_id = r_row[0]
                         if cond_id in result["components"][comp_code]["conditions"]:
                             result["components"][comp_code]["conditions"][cond_id]["time_domain"] = {
-                                "vpp": r_row[1]
+                                "effective_value": r_row[1],
+                                "vpp": r_row[2]
                             }
                             result["components"][comp_code]["conditions"][cond_id]["frequency_domain"] = {
-                                "peak_frequency_khz": r_row[2],
-                                "peak_amplitude": r_row[3],
-                                "rms": r_row[4]
+                                "peak_ranking": self._parse_peak_ranking(r_row[3]),
+                                "peak_frequency_khz": r_row[4],
+                                "peak_amplitude": r_row[5],
+                                "rms": r_row[6]
                             }
-                            if r_row[5] and not result["components"][comp_code]["conditions"][cond_id].get("image_path"):
-                                result["components"][comp_code]["conditions"][cond_id]["image_path"] = r_row[5]
+                            if r_row[7] and not result["components"][comp_code]["conditions"][cond_id].get("image_path"):
+                                result["components"][comp_code]["conditions"][cond_id]["image_path"] = r_row[7]
 
         cursor.execute(f"SELECT COUNT(*) FROM {self.table_name} WHERE vehicle_id = ?", (vehicle_id,))
         total_conditions = cursor.fetchone()[0]
@@ -254,3 +292,18 @@ class JsonExporter(BaseExporter):
         }
 
         return result
+
+    @staticmethod
+    def _parse_peak_ranking(value):
+        """Parse peak_ranking_json field. Returns string if stored as string, dict/list if JSON."""
+        if value is None:
+            return ""
+        if isinstance(value, str):
+            try:
+                import json
+                parsed = json.loads(value)
+                # If it's a pandas DataFrame JSON string, return as-is
+                return parsed if isinstance(parsed, (dict, list)) else value
+            except (json.JSONDecodeError, ValueError):
+                return value
+        return value
