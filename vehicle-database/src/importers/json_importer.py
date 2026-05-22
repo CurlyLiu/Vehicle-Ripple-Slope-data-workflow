@@ -87,29 +87,61 @@ class JsonImporter(BaseImporter):
         if not vehicle_id:
             return
 
+        def _getv(*keys):
+            """从 vehicle_info 中按多个键名顺序查找值，过滤空值和'-'"""
+            for k in keys:
+                v = vehicle_info.get(k)
+                if v is not None and str(v).strip() and str(v).strip() != '-':
+                    return v
+            return None
+
         conn.execute("""
             INSERT OR REPLACE INTO vehicles (
                 vehicle_id, vehicle_model, manufacturer, level, energy_type,
                 length_mm, width_mm, height_mm, wheelbase_mm,
+                front_track_mm, rear_track_mm, min_ground_clearance_mm,
                 curb_weight_kg, max_weight_kg,
+                front_motor_max_power_kw, rear_motor_max_power_kw,
+                front_motor_max_torque_nm, rear_motor_max_torque_nm,
+                system_total_power_kw, high_voltage_architecture,
                 battery_type, battery_capacity_kwh, fast_charge_power_kw,
+                front_suspension, rear_suspension,
+                engine_model, transmission_type, displacement_l,
+                engine_max_power_kw, engine_max_torque_nm, price_wan,
                 vehicle_info_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             vehicle_id,
-            vehicle_info.get('vehicle_model') or vehicle_info.get('车型') or vehicle_id,
-            vehicle_info.get('manufacturer') or vehicle_info.get('制造商'),
-            vehicle_info.get('级别'),
-            vehicle_info.get('能源类型'),
-            vehicle_info.get('length_mm'),
-            vehicle_info.get('width_mm'),
-            vehicle_info.get('height_mm'),
-            vehicle_info.get('轴距(mm)'),
-            vehicle_info.get('整备质量(kg)'),
-            vehicle_info.get('最大满载质量(kg)'),
-            vehicle_info.get('电池类型'),
-            vehicle_info.get('电池能量(kWh)'),
-            vehicle_info.get('快充功率(kW)'),
+            _getv('vehicle_model', '车型', '参数名称') or vehicle_id,
+            _getv('manufacturer', '制造商', '厂商', '品牌'),
+            _getv('level', '级别'),
+            _getv('energy_type', '能源类型'),
+            _getv('length_mm', '长度(mm)', '车长mm', '车长'),
+            _getv('width_mm', '宽度(mm)', '车宽mm', '车宽'),
+            _getv('height_mm', '高度(mm)', '车高mm', '车高'),
+            _getv('wheelbase_mm', '轴距(mm)'),
+            _getv('front_track_mm', '前轮距(mm)'),
+            _getv('rear_track_mm', '后轮距(mm)'),
+            _getv('min_ground_clearance_mm', '最小离地间隙(mm)'),
+            _getv('curb_weight_kg', '整备质量(kg)'),
+            _getv('max_weight_kg', '最大满载质量(kg)'),
+            _getv('front_motor_max_power_kw', '前电机最大功率(kW)', '前电动机最大功率(kW)'),
+            _getv('rear_motor_max_power_kw', '后电机最大功率(kW)', '后电动机最大功率(kW)'),
+            _getv('front_motor_max_torque_nm', '前电机最大扭矩(N·m)', '电动机总扭矩(N·m)'),
+            _getv('rear_motor_max_torque_nm', '后电机最大扭矩(N·m)'),
+            _getv('system_total_power_kw', '系统综合功率(kW)'),
+            _getv('high_voltage_architecture', '高压架构'),
+            _getv('battery_type', '电池类型'),
+            _getv('battery_capacity_kwh', '电池能量(kWh)'),
+            _getv('fast_charge_power_kw', '快充功率(kW)'),
+            _getv('front_suspension', '前悬类型', '前悬挂类型'),
+            _getv('rear_suspension', '后悬类型', '后悬挂类型'),
+            _getv('engine_model', '发动机型号'),
+            _getv('transmission_type', '变速箱类型'),
+            _getv('displacement_l', '排量(L)'),
+            _getv('engine_max_power_kw', '发动机最大净功率(kW/rpm)'),
+            _getv('engine_max_torque_nm', '发动机最大净扭矩(N·m/rpm)'),
+            _getv('price_wan', '指导价格（万元）', '厂商指导价(元)', '经销商报价'),
             json.dumps(vehicle_info, ensure_ascii=False)
         ))
 

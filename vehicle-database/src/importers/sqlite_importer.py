@@ -129,8 +129,8 @@ class SqliteImporter(BaseImporter):
         cursor = source_conn.cursor()
         target_cursor = target_conn.cursor()
 
-        # 首先插入车辆信息（如果不存在）
-        self._ensure_vehicle_exists(target_cursor, vehicle_id)
+        # 首先插入车辆信息（如果不存在），传入源连接以读取完整 vehicle_info
+        self._ensure_vehicle_exists(target_cursor, vehicle_id, source_conn)
 
         # 查询源数据库的表结构
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
@@ -312,8 +312,8 @@ class SqliteImporter(BaseImporter):
         cursor = source_conn.cursor()
         target_cursor = target_conn.cursor()
 
-        # 首先插入车辆信息（如果不存在）
-        self._ensure_vehicle_exists(target_cursor, vehicle_id)
+        # 首先插入车辆信息（如果不存在），传入源连接以读取完整 vehicle_info
+        self._ensure_vehicle_exists(target_cursor, vehicle_id, source_conn)
 
         # 查询源数据库的表结构
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
@@ -455,8 +455,80 @@ class SqliteImporter(BaseImporter):
             errors=errors
         )
 
-    def _ensure_vehicle_exists(self, cursor: sqlite3.Cursor, vehicle_id: str):
-        """确保车辆信息存在"""
+    def _ensure_vehicle_exists(self, cursor: sqlite3.Cursor, vehicle_id: str,
+                               source_conn: Optional[sqlite3.Connection] = None):
+        """确保车辆信息存在，如有源数据库则读取完整信息"""
+        if source_conn is not None:
+            try:
+                source_cursor = source_conn.cursor()
+                source_cursor.execute(
+                    "SELECT vehicle_info FROM vehicles WHERE vehicle_id = ?",
+                    (vehicle_id,)
+                )
+                row = source_cursor.fetchone()
+                if row and row[0]:
+                    vehicle_info = json.loads(row[0])
+
+                    def _getv(*keys):
+                        for k in keys:
+                            v = vehicle_info.get(k)
+                            if v is not None and str(v).strip():
+                                return v
+                        return None
+
+                    columns = ['vehicle_id', 'vehicle_model']
+                    values = [vehicle_id, _getv('vehicle_model', '车型', '参数名称') or vehicle_id]
+
+                    field_map = {
+                        'manufacturer': ('manufacturer', '制造商', '厂商', '品牌'),
+                        'level': ('level', '级别'),
+                        'energy_type': ('energy_type', '能源类型'),
+                        'length_mm': ('length_mm', '长度(mm)', '车长mm', '车长'),
+                        'width_mm': ('width_mm', '宽度(mm)', '车宽mm', '车宽'),
+                        'height_mm': ('height_mm', '高度(mm)', '车高mm', '车高'),
+                        'wheelbase_mm': ('wheelbase_mm', '轴距(mm)'),
+                        'front_track_mm': ('front_track_mm', '前轮距(mm)'),
+                        'rear_track_mm': ('rear_track_mm', '后轮距(mm)'),
+                        'min_ground_clearance_mm': ('min_ground_clearance_mm', '最小离地间隙(mm)'),
+                        'curb_weight_kg': ('curb_weight_kg', '整备质量(kg)'),
+                        'max_weight_kg': ('max_weight_kg', '最大满载质量(kg)'),
+                        'front_motor_max_power_kw': ('front_motor_max_power_kw', '前电机最大功率(kW)', '前电动机最大功率(kW)'),
+                        'rear_motor_max_power_kw': ('rear_motor_max_power_kw', '后电机最大功率(kW)', '后电动机最大功率(kW)'),
+                        'front_motor_max_torque_nm': ('front_motor_max_torque_nm', '前电机最大扭矩(N·m)', '电动机总扭矩(N·m)'),
+                        'rear_motor_max_torque_nm': ('rear_motor_max_torque_nm', '后电机最大扭矩(N·m)'),
+                        'system_total_power_kw': ('system_total_power_kw', '系统综合功率(kW)'),
+                        'high_voltage_architecture': ('high_voltage_architecture', '高压架构'),
+                        'battery_type': ('battery_type', '电池类型'),
+                        'battery_capacity_kwh': ('battery_capacity_kwh', '电池能量(kWh)'),
+                        'fast_charge_power_kw': ('fast_charge_power_kw', '快充功率(kW)'),
+                        'front_suspension': ('front_suspension', '前悬类型', '前悬挂类型'),
+                        'rear_suspension': ('rear_suspension', '后悬类型', '后悬挂类型'),
+                        'engine_model': ('engine_model', '发动机型号'),
+                        'transmission_type': ('transmission_type', '变速箱类型'),
+                        'displacement_l': ('displacement_l', '排量(L)'),
+                        'engine_max_power_kw': ('engine_max_power_kw', '发动机最大净功率(kW/rpm)'),
+                        'engine_max_torque_nm': ('engine_max_torque_nm', '发动机最大净扭矩(N·m/rpm)'),
+                        'price_wan': ('price_wan', '指导价格（万元）', '厂商指导价(元)', '经销商报价'),
+                    }
+
+                    for col, keys in field_map.items():
+                        val = _getv(*keys)
+                        if val is not None:
+                            columns.append(col)
+                            values.append(val)
+
+                    columns.append('vehicle_info_json')
+                    values.append(json.dumps(vehicle_info, ensure_ascii=False))
+
+                    placeholders = ', '.join('?' for _ in values)
+                    cursor.execute(
+                        f"INSERT OR REPLACE INTO vehicles ({', '.join(columns)}) VALUES ({placeholders})",
+                        values
+                    )
+                    return
+            except Exception:
+                pass  # 回退到基本插入
+
         cursor.execute(
             "INSERT OR IGNORE INTO vehicles (vehicle_id, vehicle_model) VALUES (?, ?)",
             (vehicle_id, vehicle_id)

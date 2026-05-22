@@ -448,101 +448,167 @@ def import_vehicle(db_ripple, db_slope, vehicle_id: str, vehicle_path: Path, for
 
 
 def _load_vehicle_info_md(path: Path) -> Optional[Dict[str, str]]:
-    """解析 vehicle_info.md Markdown表格，返回 {中文字段名: 值} 字典"""
+    """解析 vehicle_info.md Markdown纵向键值对表格，返回 {中文字段名: 值} 字典"""
     if not path.exists():
         return None
 
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
+            content = f.read()
     except UnicodeDecodeError:
         with open(path, 'r', encoding='gbk') as f:
-            lines = f.readlines()
+            content = f.read()
 
-    headers = None
-    data_row = None
-    for i, line in enumerate(lines):
+    info = {}
+    for line in content.split('\n'):
         line = line.strip()
-        if not line.startswith('|'):
+        if not line.startswith('|') or line.startswith('|---'):
             continue
-        parts = [p.strip() for p in line.split('|')[1:-1]]
-        if not parts:
-            continue
-        # 检查下一行是否为分隔符 (包含 :---)
-        if i + 1 < len(lines) and ':--' in lines[i + 1]:
-            headers = parts
-            if i + 2 < len(lines):
-                data_parts = [p.strip() for p in lines[i + 2].split('|')[1:-1]]
-                if data_parts and len(data_parts) == len(headers):
-                    data_row = data_parts
-            break
+        parts = [p.strip() for p in line.split('|')]
+        if len(parts) >= 3:
+            key = parts[1]
+            value = parts[2]
+            # 跳过表头行和空key
+            if key and key not in ['Parameter', '参数', '---', '']:
+                info[key] = value
 
-    if headers and data_row:
-        return dict(zip(headers, data_row))
+    return info if info else None
+
+
+def _load_vehicle_info_from_json(vehicle_id: str, vehicle_path: Path) -> Optional[Dict[str, Any]]:
+    """从车辆 output 目录的 JSON 文件读取完整 vehicle_info"""
+    # 尝试 ripple 和 slope 两种 output 路径
+    for suffix in ['_RIPPLE', '_SLOPE']:
+        output_dir = vehicle_path.parent / f"{vehicle_id}{suffix}_output"
+        json_file = output_dir / f"{vehicle_id}{suffix}_data.json"
+        if json_file.exists():
+            try:
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                vehicle = data.get('vehicle', {})
+                return vehicle.get('vehicle_info')
+            except (json.JSONDecodeError, OSError, UnicodeDecodeError):
+                continue
     return None
+
+
+def _parse_numeric_value(val: Any) -> Any:
+    """解析数值，处理带单位的价格字符串如 '25.98万'"""
+    if val is None:
+        return None
+    s = str(val).strip()
+    if not s or s == '-':
+        return None
+
+    # 处理价格单位
+    if '万' in s:
+        # "25.98万" / "25.98万起" / "19.58万元起" / "19.58万计算器" -> 25.98
+        # 使用正则提取数字部分，处理被污染的字符串
+        match = re.search(r'(\d+(?:\.\d+)?)', s)
+        if match:
+            return float(match.group(1))
+        return None
+    # 处理 "元" 单位 -> 转换为万元
+    if s.endswith('元') and '万' not in s:
+        num_part = s[:-1].strip().replace(',', '')
+        try:
+            return float(num_part) / 10000
+        except ValueError:
+            return s
+
+    # 普通数值
+    try:
+        if '.' in s:
+            return float(s)
+        else:
+            return int(s)
+    except ValueError:
+        return s
 
 
 def _sync_vehicle_info(db: DatabaseConnection, vehicle_id: str, vehicle_path: Path) -> None:
     """
-    从 vehicle_info.md 或 vehicle_info.xlsx 同步完整车辆信息到数据库。
+    从 vehicle_info.md / vehicle_info.xlsx / JSON 同步完整车辆信息到数据库。
 
-    该函数在 import_vehicle 最后被调用，确保无论使用 JSON/SQLite/Excel
-    哪种导入器，vehicles 表中的车辆基本信息都会被更新为最新内容。
+    合并策略：JSON 为底（最完整），md 优先，xlsx 补充，空值不覆盖。
+    该函数在 import_vehicle 最后被调用，确保 vehicles 表中的车辆信息完整。
     """
     info_md = vehicle_path / "vehicle_info.md"
     info_xlsx = vehicle_path / "vehicle_info.xlsx"
 
-    vehicle_info: Optional[Dict[str, str]] = None
+    # 1. 优先从 JSON 读取完整 vehicle_info（最完整的数据源）
+    merged_info: Dict[str, Any] = _load_vehicle_info_from_json(vehicle_id, vehicle_path) or {}
 
-    # HR-N7 + P2.10 v1.4: md 与 xlsx 都存在时,mtime 差异大于 60s 给出警告
-    # 避免用户编辑 xlsx 后期望生效,但实际 md 优先被读取
-    if info_md.exists() and info_xlsx.exists():
-        try:
-            md_mtime = info_md.stat().st_mtime
-            xlsx_mtime = info_xlsx.stat().st_mtime
-            if abs(md_mtime - xlsx_mtime) > 60:  # 1 min 阈值
-                from datetime import datetime as _dt
-                newer = 'xlsx' if xlsx_mtime > md_mtime else 'md'
-                import sys as _sys
-                print(
-                    f"[WARN] {vehicle_id}: vehicle_info.md ({_dt.fromtimestamp(md_mtime).isoformat(timespec='seconds')}) "
-                    f"与 .xlsx ({_dt.fromtimestamp(xlsx_mtime).isoformat(timespec='seconds')}) "
-                    f"mtime 差异较大 (newer={newer})。使用 md (优先级更高)。建议选择一种格式以避免歧义。",
-                    file=_sys.stderr
-                )
-        except OSError:
-            pass
-
+    # 2. 从 md 读取
+    md_info: Optional[Dict[str, str]] = None
     if info_md.exists():
-        vehicle_info = _load_vehicle_info_md(info_md)
-    elif info_xlsx.exists():
+        md_info = _load_vehicle_info_md(info_md)
+
+    # 3. 从 xlsx 读取
+    xlsx_info: Optional[Dict[str, str]] = None
+    if info_xlsx.exists():
         try:
             import pandas as pd
             df = pd.read_excel(info_xlsx)
             if not df.empty:
-                row = df.iloc[0]
-                vehicle_info = {str(k): str(v) if pd.notna(v) else '' for k, v in row.items()}
+                # 支持两种格式：横向表头 或 纵向键值对
+                if len(df.columns) >= 2:
+                    # 尝试纵向键值对格式（第一列是key，第二列是value）
+                    xlsx_info = {}
+                    for _, row in df.iterrows():
+                        key = str(row.iloc[0]).strip() if pd.notna(row.iloc[0]) else ''
+                        val = str(row.iloc[1]).strip() if pd.notna(row.iloc[1]) else ''
+                        if key:
+                            xlsx_info[key] = val
+                else:
+                    # 横向表格格式
+                    row = df.iloc[0]
+                    xlsx_info = {str(k): str(v) if pd.notna(v) else '' for k, v in row.items()}
         except Exception as e:
-            # HR-N7 + P2.10 v1.4: xlsx 解析失败时显式日志,避免静默吞
             import sys as _sys
             print(
                 f"[ERROR] {vehicle_id}: vehicle_info.xlsx 解析失败: {type(e).__name__}: {e}",
                 file=_sys.stderr
             )
 
-    if not vehicle_info:
+    # 4. 合并：md 优先，xlsx 补充，空值不覆盖
+    def _is_empty(val: Any) -> bool:
+        if val is None:
+            return True
+        s = str(val).strip()
+        return s == '' or s.lower() in ('nan', 'none', 'null')
+
+    # md 优先覆盖
+    if md_info:
+        for key, val in md_info.items():
+            if not _is_empty(val):
+                merged_info[key] = val
+
+    # xlsx 补充 md 中没有的字段
+    if xlsx_info:
+        for key, val in xlsx_info.items():
+            if not _is_empty(val) and (key not in merged_info or _is_empty(merged_info.get(key))):
+                merged_info[key] = val
+
+    if not merged_info:
         return
 
-    # 中文字段名 → 数据库英文字段名 映射
+    # 中文字段名/英文字段名 → 数据库英文字段名 映射
     key_mapping: Dict[str, str] = {
+        # 中文键名（md/xlsx 常用）
         '车型': 'vehicle_model',
         '车辆型号': 'vehicle_model',
         '制造商': 'manufacturer',
+        '厂商': 'manufacturer',
+        '品牌': 'manufacturer',
         '级别': 'level',
         '能源类型': 'energy_type',
         '车长mm': 'length_mm',
         '车宽mm': 'width_mm',
         '车高mm': 'height_mm',
+        '长度(mm)': 'length_mm',
+        '宽度(mm)': 'width_mm',
+        '高度(mm)': 'height_mm',
         '轴距(mm)': 'wheelbase_mm',
         '前轮距(mm)': 'front_track_mm',
         '后轮距(mm)': 'rear_track_mm',
@@ -551,8 +617,11 @@ def _sync_vehicle_info(db: DatabaseConnection, vehicle_id: str, vehicle_path: Pa
         '最大满载质量(kg)': 'max_weight_kg',
         '前电机最大功率(kW)': 'front_motor_max_power_kw',
         '后电机最大功率(kW)': 'rear_motor_max_power_kw',
+        '前电动机最大功率(kW)': 'front_motor_max_power_kw',
+        '后电动机最大功率(kW)': 'rear_motor_max_power_kw',
         '前电机最大扭矩(N·m)': 'front_motor_max_torque_nm',
         '后电机最大扭矩(N·m)': 'rear_motor_max_torque_nm',
+        '电动机总扭矩(N·m)': 'front_motor_max_torque_nm',
         '系统综合功率(kW)': 'system_total_power_kw',
         '高压架构': 'high_voltage_architecture',
         '电池类型': 'battery_type',
@@ -560,33 +629,64 @@ def _sync_vehicle_info(db: DatabaseConnection, vehicle_id: str, vehicle_path: Pa
         '快充功率(kW)': 'fast_charge_power_kw',
         '前悬类型': 'front_suspension',
         '后悬类型': 'rear_suspension',
+        '前悬挂类型': 'front_suspension',
+        '后悬挂类型': 'rear_suspension',
+        '前悬架类型': 'front_suspension',
+        '后悬架类型': 'rear_suspension',
         '发动机型号': 'engine_model',
         '变速箱类型': 'transmission_type',
         '排量(L)': 'displacement_l',
         '发动机最大净功率(kW/rpm)': 'engine_max_power_kw',
         '发动机最大净扭矩(N·m/rpm)': 'engine_max_torque_nm',
         '指导价格（万元）': 'price_wan',
+        '厂商指导价(元)': 'price_wan',
+        '经销商报价': 'price_wan',
+        # 英文键名（JSON 中可能直接使用）
+        'vehicle_model': 'vehicle_model',
+        'manufacturer': 'manufacturer',
+        'level': 'level',
+        'energy_type': 'energy_type',
+        'length_mm': 'length_mm',
+        'width_mm': 'width_mm',
+        'height_mm': 'height_mm',
+        'wheelbase_mm': 'wheelbase_mm',
+        'front_track_mm': 'front_track_mm',
+        'rear_track_mm': 'rear_track_mm',
+        'min_ground_clearance_mm': 'min_ground_clearance_mm',
+        'curb_weight_kg': 'curb_weight_kg',
+        'max_weight_kg': 'max_weight_kg',
+        'front_motor_max_power_kw': 'front_motor_max_power_kw',
+        'rear_motor_max_power_kw': 'rear_motor_max_power_kw',
+        'front_motor_max_torque_nm': 'front_motor_max_torque_nm',
+        'rear_motor_max_torque_nm': 'rear_motor_max_torque_nm',
+        'system_total_power_kw': 'system_total_power_kw',
+        'high_voltage_architecture': 'high_voltage_architecture',
+        'battery_type': 'battery_type',
+        'battery_capacity_kwh': 'battery_capacity_kwh',
+        'fast_charge_power_kw': 'fast_charge_power_kw',
+        'front_suspension': 'front_suspension',
+        'rear_suspension': 'rear_suspension',
+        'engine_model': 'engine_model',
+        'transmission_type': 'transmission_type',
+        'displacement_l': 'displacement_l',
+        'engine_max_power_kw': 'engine_max_power_kw',
+        'engine_max_torque_nm': 'engine_max_torque_nm',
+        'price_wan': 'price_wan',
     }
 
     mapped: Dict[str, Any] = {}
     for src_key, db_key in key_mapping.items():
-        val = vehicle_info.get(src_key)
-        if val and str(val).strip():
-            # 尝试转为数字
-            s = str(val).strip()
-            try:
-                if '.' in s:
-                    mapped[db_key] = float(s)
-                else:
-                    mapped[db_key] = int(s)
-            except ValueError:
-                mapped[db_key] = s
+        val = merged_info.get(src_key)
+        if not _is_empty(val):
+            parsed = _parse_numeric_value(val)
+            if parsed is not None:
+                mapped[db_key] = parsed
 
     if not mapped:
         return
 
-    # 始终保存原始 JSON
-    mapped['vehicle_info_json'] = json.dumps(vehicle_info, ensure_ascii=False)
+    # 始终保存完整 JSON
+    mapped['vehicle_info_json'] = json.dumps(merged_info, ensure_ascii=False)
 
     # 检查车辆是否已存在
     db.execute("SELECT 1 FROM vehicles WHERE vehicle_id = ?", (vehicle_id,))
