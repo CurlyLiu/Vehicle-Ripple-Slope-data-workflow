@@ -194,11 +194,18 @@ class ExcelImporter(BaseImporter):
         })
 
         for standard_name, variants in column_variants.items():
+            best_match_col = None
+            best_match_len = 0
             for col in columns:
                 col_str = str(col).strip()
-                if any(variant.lower() in col_str.lower() for variant in variants):
-                    mapping[standard_name] = col_str
-                    break
+                col_lower = col_str.lower()
+                for variant in variants:
+                    v_lower = variant.lower()
+                    if v_lower in col_lower and len(v_lower) > best_match_len:
+                        best_match_col = col_str
+                        best_match_len = len(v_lower)
+            if best_match_col:
+                mapping[standard_name] = best_match_col
 
         return mapping
 
@@ -266,6 +273,14 @@ class ExcelImporter(BaseImporter):
             INSERT OR IGNORE INTO test_conditions (condition_id, condition_name, soc_level, category)
             VALUES (?, ?, ?, ?)
         """, (condition_id, condition_name, soc_level, category))
+
+        # 智能更新：新名称有意义且比现有值更好时覆盖
+        if condition_name and condition_name != condition_id:
+            conn.execute("""
+                UPDATE test_conditions
+                SET condition_name = ?
+                WHERE condition_id = ? AND (condition_name = '' OR condition_name = condition_id)
+            """, (condition_name, condition_id))
 
     @staticmethod
     def _normalize_soc_label(label: str) -> str:

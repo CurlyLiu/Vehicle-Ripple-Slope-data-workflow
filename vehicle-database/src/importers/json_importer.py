@@ -162,15 +162,24 @@ class JsonImporter(BaseImporter):
 
     def _import_condition(self, conn: sqlite3.Connection, cond_id: str, cond_data: dict) -> None:
         """导入工况定义"""
+        new_name = cond_data.get('condition_name', '')
         conn.execute("""
             INSERT OR IGNORE INTO test_conditions (condition_id, condition_name, soc_level, category)
             VALUES (?, ?, ?, ?)
         """, (
             cond_id,
-            cond_data.get('condition_name', ''),
+            new_name,
             cond_data.get('soc_level', ''),
             self._infer_category(cond_id)
         ))
+
+        # 智能更新：新名称有意义且比现有值更好时覆盖
+        if new_name and new_name != cond_id:
+            conn.execute("""
+                UPDATE test_conditions
+                SET condition_name = ?
+                WHERE condition_id = ? AND (condition_name = '' OR condition_name = condition_id)
+            """, (new_name, cond_id))
 
     def _import_ripple_result(self, conn: sqlite3.Connection, vehicle_id: str,
                               comp_code: str, cond_id: str, cond_data: dict) -> None:
