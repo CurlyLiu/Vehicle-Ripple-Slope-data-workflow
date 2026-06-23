@@ -546,8 +546,17 @@ class SqliteImporter(BaseImporter):
     def _ensure_condition_exists(self, cursor: sqlite3.Cursor,
                                  condition_id: str, condition_name: str, soc_level: str):
         """确保工况信息存在"""
+        effective_name = condition_name or condition_id
         cursor.execute(
             """INSERT OR IGNORE INTO test_conditions
                (condition_id, condition_name, soc_level) VALUES (?, ?, ?)""",
-            (condition_id, condition_name or condition_id, soc_level or 'UNKNOWN')
+            (condition_id, effective_name, soc_level or 'UNKNOWN')
         )
+
+        # 智能更新：新名称有意义且比现有值更好时覆盖
+        if condition_name and condition_name != condition_id:
+            cursor.execute("""
+                UPDATE test_conditions
+                SET condition_name = ?
+                WHERE condition_id = ? AND (condition_name = '' OR condition_name = condition_id)
+            """, (condition_name, condition_id))
