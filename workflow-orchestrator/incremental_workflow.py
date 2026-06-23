@@ -1061,6 +1061,13 @@ def batch_run(base_dir: Path, skills_dir: str, stages: str, force: bool):
                                 added.append(d.stage)
                         if added:
                             print(f"  [二次规划] stage2 完成后新增 {len(added)} 个阶段: {', '.join(added)}")
+                            # 修正汇总基数：二次规划新增的 stage3/stage4 也要计入统计，
+                            # 避免最终汇总表错误显示为"跳过"。
+                            stage3_ripple_planned = sum(1 for d in stages_to_run if d.stage.startswith("stage3_ripple"))
+                            stage3_slope_planned = sum(1 for d in stages_to_run if d.stage.startswith("stage3_slope"))
+                            stage3_total = stage3_ripple_planned + stage3_slope_planned
+                            stage4_executed = any(d.stage == "stage4" for d in stages_to_run)
+                            stage4_display = "执行" if stage4_executed else "跳过"
                         replanned_flag = True
                 elif result.get("status") == "manual_required":
                     # NEW-3 v1.4: stage1 manual_required 不视为失败,不更新 cache,继续后续阶段
